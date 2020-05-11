@@ -34,7 +34,7 @@ export default function HomeScreen() {
       <Text style={styles.mainTitle}> Choose your poll </Text>
 
       < FlatList 
-        // showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         keyExtractor={item => item.title}
         data={collection}
         renderItem={({ item }) => 

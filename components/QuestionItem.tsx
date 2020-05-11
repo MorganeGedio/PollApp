@@ -1,15 +1,20 @@
 import * as React from 'react';
-import { View, Text, Image, Button, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function QuestionItem(props) {
   return (
-    <View style={styles.container}>
-        <Image style={styles.image} source={{uri: props.imageUri }} />
-        <View style={styles.baseText}>
-            <Text style={styles.titleText}>{props.title}</Text>
-            <Text>{props.description}</Text>
+    <TouchableOpacity 
+        // style={styles.container}
+        // onPress={onPress}
+    >
+        <View style={styles.container}>
+            <Image style={styles.image} source={{uri: props.imageUri }} />
+            <View style={styles.baseText}>
+                <Text style={styles.titleText}>{props.title}</Text>
+                <Text>{props.description}</Text>
+            </View>
         </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
