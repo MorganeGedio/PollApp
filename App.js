@@ -29,7 +29,9 @@ export default function App(props) {
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
-          'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+          'nunito-bold': require('./assets/fonts/NunitoSans-Bold.ttf'),
+          'nunito-regular': require('./assets/fonts/NunitoSans-Regular.ttf'),
+          'roboto': require('./assets/fonts/Roboto-Regular.ttf')
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
