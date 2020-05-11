@@ -9,26 +9,33 @@ export default function QuestionItem(props) {
             <Text style={styles.titleText}>{props.title}</Text>
             <Text>{props.description}</Text>
         </View>
-
-
-
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        marginTop: 30,
+        height: 100,
+        flexDirection: 'row',
+        // justifyContent: 'space-between', 
+        backgroundColor: "#dfcdc3", 
+        borderRadius: 5, 
+        marginVertical: 20
+    },
     baseText: {
         fontFamily: "nunito-regular",
+        marginTop: 20,
+        marginLeft: 10, 
     },
     titleText: {
         fontSize: 20,
-        fontWeight: "bold"
-    },
-    container: {
-      paddingTop: 30,
+        fontWeight: "bold", 
+        color: "#3c4245"
     },
     image: {
-        width: 60,
-        height: 60,
-      },
+        width: 100,
+        height: 100,
+        borderRadius: 5
+    },
   });
