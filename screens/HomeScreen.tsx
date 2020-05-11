@@ -19,7 +19,7 @@ export default function HomeScreen() {
           uri: 'https://images.unsplash.com/photo-1543332164-6e82f355badc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
         }} />
       <Text>Monday 11 May </Text>
-      <QuestionItem title="Question 1" />
+      <QuestionItem title="Question 1" description="test description question 1" imageUri='https://w7.pngwing.com/pngs/269/714/png-transparent-computer-icons-question-mark-button-question-mark-text-logo-number.png' />
     </View>
   );
 };

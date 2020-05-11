@@ -3,11 +3,15 @@ import { View, Text, Image, Button, StyleSheet } from 'react-native';
 
 export default function QuestionItem(props) {
   return (
-    <View>
-    <Text>
-        <Text style={styles.titleText}>{props.title}</Text>
-        <Text>{props.description}</Text>
-      </Text>
+    <View style={styles.container}>
+        <Image style={styles.image} source={{uri: props.imageUri }} />
+        <View style={styles.baseText}>
+            <Text style={styles.titleText}>{props.title}</Text>
+            <Text>{props.description}</Text>
+        </View>
+
+
+
     </View>
   );
 }
@@ -21,6 +25,10 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     container: {
-      paddingTop: 50,
+      paddingTop: 30,
     },
+    image: {
+        width: 60,
+        height: 60,
+      },
   });
