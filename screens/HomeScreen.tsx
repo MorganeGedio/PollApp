@@ -17,6 +17,13 @@ export default function HomeScreen() {
   }, []);
   // empty array to avoid activating effect hook on component updates but only for the mounting 
 
+  function getParsedDate(date){
+    date = String(date).split(' ');
+    var days = String(date[0]).split('-');
+    return ["0", parseInt(days[2]), "-", "0", parseInt(days[1]), "-", parseInt(days[0])];
+  }
+
+
   return (
     <SafeAreaView style={styles.container}>
 
@@ -29,7 +36,7 @@ export default function HomeScreen() {
         renderItem={({ item }) => 
         <QuestionItem 
           title={item.question} 
-          description={item.published_at} 
+          description={getParsedDate(item.published_at)} 
           // imageUri={item.imageUri} 
         />}
       />

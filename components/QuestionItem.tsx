@@ -11,7 +11,7 @@ export default function QuestionItem(props) {
             {/* <Image style={styles.image} source={{uri: props.imageUri }} /> */}
             <View style={styles.baseText}>
                 <Text style={styles.titleText}>{props.title}</Text>
-                <Text>{props.description}</Text>
+                <Text>Created on: {props.description}</Text>
             </View>
         </View>
     </TouchableOpacity>
