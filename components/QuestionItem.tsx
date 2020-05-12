@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function QuestionItem(props) {
 
-    const onPress = () => alert('You tapped the button!')
+    // const onPress = () => alert('You tapped the button!')
+    const navigation = useNavigation();
 
   return (
     <TouchableOpacity 
-        onPress={onPress}
+        onPress={() => navigation.navigate('Details')}
     >
         <View style={styles.container}>
             {/* <Image style={styles.image} source={{uri: props.imageUri }} /> */}
