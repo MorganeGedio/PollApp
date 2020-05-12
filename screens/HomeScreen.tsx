@@ -17,11 +17,11 @@ export default function HomeScreen() {
   }, []);
   // empty array to avoid activating effect hook on component updates but only for the mounting 
 
-  function getParsedDate(date){
-    date = String(date).split(' ');
-    var days = String(date[0]).split('-');
-    return ["0", parseInt(days[2]), "-", "0", parseInt(days[1]), "-", parseInt(days[0])];
-  }
+  function formatDate(string){
+    const date = new Date(string)
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString([],options);
+}
 
 
   return (
@@ -36,7 +36,7 @@ export default function HomeScreen() {
         renderItem={({ item }) => 
         <QuestionItem 
           title={item.question} 
-          description={getParsedDate(item.published_at)} 
+          description={formatDate(item.published_at)} 
           // imageUri={item.imageUri} 
         />}
       />
