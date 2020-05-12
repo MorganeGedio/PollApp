@@ -1,32 +1,21 @@
 import * as WebBrowser from 'expo-web-browser';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, FlatList, SafeAreaView } from "react-native";
 import QuestionItem from "../components/QuestionItem";
+import apiary from "../apiary"
 
 export default function HomeScreen() {
 
-  const collection = [
-    {  
-      title: 'Question 1', 
-      description: "Description question 1",
-      imageUri: 'https://w7.pngwing.com/pngs/269/714/png-transparent-computer-icons-question-mark-button-question-mark-text-logo-number.png', 
-    },
-    {  
-      title: 'Question 2', 
-      description: "Description question 2",
-      imageUri: 'https://w7.pngwing.com/pngs/269/714/png-transparent-computer-icons-question-mark-button-question-mark-text-logo-number.png', 
-    },
-    {  
-      title: 'Question 3', 
-      description: "Description question 3",
-      imageUri: 'https://w7.pngwing.com/pngs/269/714/png-transparent-computer-icons-question-mark-button-question-mark-text-logo-number.png', 
-    },
-    {  
-      title: 'Question 4', 
-      description: "Description question 4",
-      imageUri: 'https://w7.pngwing.com/pngs/269/714/png-transparent-computer-icons-question-mark-button-question-mark-text-logo-number.png', 
-    } 
-   ]
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await apiary.get('/questions');
+    setQuestions(response.data);
+    };
+    fetchData();
+  }, []);
+  // empty array to avoid activating effect hook on component updates but only for the mounting 
 
   return (
     <SafeAreaView style={styles.container}>
@@ -35,13 +24,13 @@ export default function HomeScreen() {
 
       < FlatList 
         showsVerticalScrollIndicator={false}
-        keyExtractor={item => item.title}
-        data={collection}
+        keyExtractor={item => item.url}
+        data={questions}
         renderItem={({ item }) => 
         <QuestionItem 
-          title={item.title} 
-          description={item.description} 
-          imageUri={item.imageUri} 
+          title={item.question} 
+          description={item.published_at} 
+          // imageUri={item.imageUri} 
         />}
       />
 
