@@ -21,9 +21,8 @@ export default function HomeScreen() {
     const date = new Date(string)
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return date.toLocaleDateString([],options);
-}
-
-
+  }
+  
   return (
     <SafeAreaView style={styles.container}>
 

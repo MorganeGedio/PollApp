@@ -2,10 +2,12 @@ import * as React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function QuestionItem(props) {
+
+    const onPress = () => alert('You tapped the button!')
+
   return (
     <TouchableOpacity 
-        // style={styles.container}
-        // onPress={onPress}
+        onPress={onPress}
     >
         <View style={styles.container}>
             {/* <Image style={styles.image} source={{uri: props.imageUri }} /> */}
