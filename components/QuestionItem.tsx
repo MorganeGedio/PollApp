@@ -8,7 +8,7 @@ export default function QuestionItem(props) {
         // onPress={onPress}
     >
         <View style={styles.container}>
-            <Image style={styles.image} source={{uri: props.imageUri }} />
+            {/* <Image style={styles.image} source={{uri: props.imageUri }} /> */}
             <View style={styles.baseText}>
                 <Text style={styles.titleText}>{props.title}</Text>
                 <Text>{props.description}</Text>
@@ -38,9 +38,9 @@ const styles = StyleSheet.create({
         fontWeight: "bold", 
         color: "#3c4245"
     },
-    image: {
-        width: 100,
-        height: 100,
-        borderRadius: 5
-    },
+    // image: {
+    //     width: 100,
+    //     height: 100,
+    //     borderRadius: 5
+    // },
   });
