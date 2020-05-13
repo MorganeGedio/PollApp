@@ -1,18 +1,26 @@
 import * as WebBrowser from "expo-web-browser";
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, FlatList, SafeAreaView, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
+  Button,
+} from "react-native";
+import { useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import apiary from "../apiary";
-import { useRoute } from '@react-navigation/native';
 
 export default function DetailScreen() {
   const [details, setDetails] = useState({ question: "", choices: [] });
   const route = useRoute();
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
-    const response = await apiary.get(route.params.url);
-    // const response = await apiary.get('questions/22');
-    //   console.log(response);
+      const response = await apiary.get(route.params.url);
+      //   console.log(response);
       setDetails(response.data);
     };
     fetchData();
@@ -20,21 +28,18 @@ export default function DetailScreen() {
 
   return (
     <SafeAreaView>
-      {/* info to access : 
-        - question <-> title
-        - iterate over the choices array to get the choice name + url   */}
       <Text style={styles.question}> {details.question} </Text>
 
       <FlatList
         showsVerticalScrollIndicator={false}
-        keyExtractor={item => item.url}
+        keyExtractor={(item) => item.url}
         data={details.choices}
         renderItem={({ item }) => {
-        //   console.log("item", item);
-        return <Text style={styles.choice}>{item.choice}</Text>;
+          //   console.log("item", item);
+          return <Text style={styles.choice}>{item.choice}</Text>;
         }}
       />
-        <Button title="Go back" onPress={() => navigation.navigate('Questions')} />
+      <Button title="Go back" onPress={() => navigation.goBack()} />
     </SafeAreaView>
   );
 }
