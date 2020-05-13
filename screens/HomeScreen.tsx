@@ -2,7 +2,7 @@ import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, FlatList, SafeAreaView } from "react-native";
 import QuestionItem from "../components/QuestionItem";
-import apiary from "../apiary"
+import apiary from "../apiary";
 
 export default function HomeScreen() {
 
@@ -33,10 +33,11 @@ export default function HomeScreen() {
         keyExtractor={item => item.url}
         data={questions}
         renderItem={({ item }) => 
-        <QuestionItem 
+        <QuestionItem
+          url={item.url} 
           title={item.question} 
           description={formatDate(item.published_at)} 
-          // imageUri={item.imageUri} 
+          imageUri='https://w7.pngwing.com/pngs/269/714/png-transparent-computer-icons-question-mark-button-question-mark-text-logo-number.png'
         />}
       />
 

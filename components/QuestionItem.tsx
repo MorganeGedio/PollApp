@@ -7,12 +7,17 @@ export default function QuestionItem(props) {
     // const onPress = () => alert('You tapped the button!')
     const navigation = useNavigation();
 
+   function questionPress() {
+        navigation.navigate('Details', { url: props.url })
+    }
+
   return (
     <TouchableOpacity 
-        onPress={() => navigation.navigate('Details')}
+        // onPress={() => navigation.navigate('Details')}
+        onPress={() => questionPress()}
     >
         <View style={styles.container}>
-            {/* <Image style={styles.image} source={{uri: props.imageUri }} /> */}
+            <Image style={styles.image} source={{uri: props.imageUri }} />
             <View style={styles.baseText}>
                 <Text style={styles.titleText}>{props.title}</Text>
                 <Text>Created on: {props.description}</Text>
@@ -24,6 +29,8 @@ export default function QuestionItem(props) {
 
 const styles = StyleSheet.create({
     container: {
+        marginLeft: 5,
+        marginRight: 5,
         marginTop: 30,
         height: 100,
         flexDirection: 'row',
@@ -42,9 +49,9 @@ const styles = StyleSheet.create({
         fontWeight: "bold", 
         color: "#3c4245"
     },
-    // image: {
-    //     width: 100,
-    //     height: 100,
-    //     borderRadius: 5
-    // },
+    image: {
+        width: 100,
+        height: 100,
+        borderRadius: 5
+    },
   });
