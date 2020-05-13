@@ -8,6 +8,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
+import HomeScreen from "./screens/HomeScreen";
+import DetailScreen from "./screens/DetailScreen";
+
 
 const Stack = createStackNavigator();
 
@@ -52,8 +55,27 @@ export default function App(props) {
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
         <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-          <Stack.Navigator>
-            <Stack.Screen name="Root" component={BottomTabNavigator} />
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: '#7d5a5a',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
+          >
+            <Stack.Screen 
+              name="Questions" 
+              component={HomeScreen} 
+              options={{
+                title:"Overview"
+                }} />
+            <Stack.Screen 
+              name="Details" 
+              component={DetailScreen} 
+              />
           </Stack.Navigator>
         </NavigationContainer>
       </View>
