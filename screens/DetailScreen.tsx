@@ -7,9 +7,11 @@ import {
   FlatList,
   SafeAreaView,
   Button,
+  TouchableOpacity,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
+import Choice from "../components/Choice";
 import apiary from "../apiary";
 
 export default function DetailScreen() {
@@ -29,6 +31,7 @@ export default function DetailScreen() {
   return (
     <SafeAreaView>
       <Text style={styles.question}> {details.question} </Text>
+      <Text>Choose one of the following option : </Text>
 
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -36,7 +39,7 @@ export default function DetailScreen() {
         data={details.choices}
         renderItem={({ item }) => {
           //   console.log("item", item);
-          return <Text style={styles.choice}>{item.choice}</Text>;
+          return <Choice title={item.choice}></Choice>;
         }}
       />
       <Button title="Go back" onPress={() => navigation.goBack()} />
@@ -48,10 +51,5 @@ const styles = StyleSheet.create({
   question: {
     fontWeight: "bold",
     fontSize: 20,
-  },
-  choice: {
-    backgroundColor: "#ffe8df",
-    marginTop: 10,
-    padding: 10,
   },
 });
