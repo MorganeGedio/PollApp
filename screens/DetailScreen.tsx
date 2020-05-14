@@ -13,7 +13,6 @@ import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import Choice from "../components/Choice";
 import apiary from "../apiary";
-import Axios from "axios";
 
 export default function DetailScreen() {
   const route = useRoute();
@@ -59,7 +58,7 @@ export default function DetailScreen() {
           );
         }}
       />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
+      {/* <Button title="Go back" onPress={() => navigation.goBack()} /> */}
     </SafeAreaView>
   );
 }

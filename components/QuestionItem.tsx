@@ -29,6 +29,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderRadius: 10,
     marginVertical: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+	    width: 0,
+	    height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
   },
   image: {
     width: 100,

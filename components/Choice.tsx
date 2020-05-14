@@ -28,6 +28,13 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginTop: 30,
     borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+	    width: 0,
+	    height: 1,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
   },
   option: {
     flexDirection: "row",
