@@ -12,8 +12,8 @@ export default function Choice(props) {
   return (
     <TouchableOpacity style={styles.choice} onPress={vote}>
       <View style={styles.option}>
-        <Text>{props.title}</Text>
-        { showVotes ? <Text> - {props.votes}</Text> : null }
+        <Text style={styles.choiceText}>{props.title}</Text>
+        { showVotes ? <Text style={styles.choiceText}> - {props.votes}</Text> : null }
       </View>
     </TouchableOpacity>
   );
@@ -22,12 +22,19 @@ export default function Choice(props) {
 const styles = StyleSheet.create({
   choice: {
     backgroundColor: "#ffe8df",
-    marginTop: 10,
     padding: 10,
     alignItems: "center",
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 30,
+    borderRadius: 10,
   },
   option: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  choiceText: {
+    fontFamily: "nunito-regular",
+    fontSize: 20,
+  }
 });

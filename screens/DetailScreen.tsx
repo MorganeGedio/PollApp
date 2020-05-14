@@ -42,7 +42,7 @@ export default function DetailScreen() {
   return (
     <SafeAreaView>
       <Text style={styles.question}> {details.question} </Text>
-      <Text>Choose one of the following option : </Text>
+      <Text style={styles.instruction}>Choose one of the following option : </Text>
 
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -66,7 +66,13 @@ export default function DetailScreen() {
 
 const styles = StyleSheet.create({
   question: {
-    fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 25,
+    fontFamily: "nunito-bold",
+    padding: 5,
   },
+  instruction: {
+    fontSize: 15,
+    fontFamily: "nunito-regular",
+    padding: 10,
+  }
 });

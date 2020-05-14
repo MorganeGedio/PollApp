@@ -13,7 +13,7 @@ export default function QuestionItem(props) {
         <View style={styles.box}>
           <Image style={styles.image} source={require('../assets/images/hand.png')} />
         </View>
-        </View>
+      </View>
     </TouchableOpacity>
   );
 }
@@ -38,14 +38,14 @@ const styles = StyleSheet.create({
   },
   box: {
     justifyContent: "center",
-    margin: 15,
+    margin: 10,
   },
   icon: {
     width: 20,
     height: 20,
   },
   baseText: {
-    margin: 20,
+    padding: 20,
     flexDirection: "column",
     justifyContent: "space-between"
   },
@@ -56,6 +56,5 @@ const styles = StyleSheet.create({
   descriptionText: {
     fontFamily: "nunito-regular",
     fontSize: 13,
-
   },
 });
