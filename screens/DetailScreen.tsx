@@ -34,7 +34,6 @@ export default function DetailScreen() {
 
   // vote
   const chooseOption = async (url) => {
-    // Alert.alert("Test");
     const info = await apiary.post(url);
     console.log(info)
     fetchData();

@@ -46,7 +46,6 @@ export default function HomeScreen() {
             // url={item.url}
             title={item.question}
             date={formatDate(item.published_at)}
-            imageUri="https://w7.pngwing.com/pngs/269/714/png-transparent-computer-icons-question-mark-button-question-mark-text-logo-number.png"
           />
         )}
       />

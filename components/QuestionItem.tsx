@@ -5,39 +5,57 @@ export default function QuestionItem(props) {
   return (
     <TouchableOpacity onPress={props.navigateToQuestion}>
       <View style={styles.container}>
-        <Image style={styles.image} source={{ uri: props.imageUri }} />
         <View style={styles.baseText}>
           <Text style={styles.titleText}>{props.title}</Text>
-          <Text>Created on: {props.date}</Text>
+          <Text style={styles.descriptionText}>Created on: {props.date}</Text>
+          <Image style={styles.icon} source={require('../assets/images/point-to.png')} />
         </View>
-      </View>
+        <View style={styles.box}>
+          <Image style={styles.image} source={require('../assets/images/hand.png')} />
+        </View>
+        </View>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 5,
-    marginRight: 5,
+    marginLeft: 30,
+    marginRight: 30,
     marginTop: 30,
-    height: 100,
+    height: 120,
     flexDirection: "row",
     backgroundColor: "#dfcdc3",
-    borderRadius: 5,
+    justifyContent: "space-between",
+    borderRadius: 10,
     marginVertical: 20,
-  },
-  baseText: {
-    fontFamily: "nunito-regular",
-    marginTop: 20,
-    marginLeft: 10,
-  },
-  titleText: {
-    fontSize: 20,
-    fontWeight: "bold",
   },
   image: {
     width: 100,
     height: 100,
-    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  box: {
+    justifyContent: "center",
+    margin: 15,
+  },
+  icon: {
+    width: 20,
+    height: 20,
+  },
+  baseText: {
+    margin: 20,
+    flexDirection: "column",
+    justifyContent: "space-between"
+  },
+  titleText: {
+    fontFamily: "nunito-bold",
+    fontSize: 20,
+  },
+  descriptionText: {
+    fontFamily: "nunito-regular",
+    fontSize: 13,
+
   },
 });
