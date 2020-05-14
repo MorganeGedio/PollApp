@@ -7,26 +7,38 @@ import {
   FlatList,
   SafeAreaView,
   Button,
-  TouchableOpacity,
+  Alert,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import Choice from "../components/Choice";
 import apiary from "../apiary";
+import Axios from "axios";
 
 export default function DetailScreen() {
-  const [details, setDetails] = useState({ question: "", choices: [] });
   const route = useRoute();
   const navigation = useNavigation();
 
+  const [details, setDetails] = useState({ question: "", choices: [] });
+
+  const fetchData = async () => {
+    console.log("test")
+    const response = await apiary.get(route.params.url);
+      console.log(response);
+    setDetails(response.data);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await apiary.get(route.params.url);
-      //   console.log(response);
-      setDetails(response.data);
-    };
     fetchData();
   }, []);
+
+  // vote
+  const chooseOption = async (url) => {
+    // Alert.alert("Test");
+    const info = await apiary.post(url);
+    console.log(info)
+    fetchData();
+  }
 
   return (
     <SafeAreaView>
@@ -38,8 +50,14 @@ export default function DetailScreen() {
         keyExtractor={(item) => item.url}
         data={details.choices}
         renderItem={({ item }) => {
-          //   console.log("item", item);
-          return <Choice title={item.choice}></Choice>;
+            // console.log("item", item);
+          return (
+            <Choice
+              voteChange={() => chooseOption(item.url)}
+              title={item.choice}
+              votes={item.votes}
+            ></Choice>
+          );
         }}
       />
       <Button title="Go back" onPress={() => navigation.goBack()} />
