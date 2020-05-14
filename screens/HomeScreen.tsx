@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
 
   mainTitle: {
-    fontWeight: "bold",
+    fontFamily: "nunito-bold",
     fontSize: 30,
   },
 });

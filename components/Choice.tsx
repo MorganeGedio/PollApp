@@ -23,7 +23,9 @@ const styles = StyleSheet.create({
   choice: {
     backgroundColor: "#ffe8df",
     padding: 10,
+    height: 70,
     alignItems: "center",
+    justifyContent: "center",
     marginLeft: 30,
     marginRight: 30,
     marginTop: 30,
