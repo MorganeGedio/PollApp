@@ -1,14 +1,6 @@
 import * as WebBrowser from "expo-web-browser";
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  SafeAreaView,
-  Button,
-  Alert,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import Choice from "../components/Choice";
@@ -21,9 +13,9 @@ export default function DetailScreen() {
   const [details, setDetails] = useState({ question: "", choices: [] });
 
   const fetchData = async () => {
-    console.log("test")
+    // console.log("test");
     const response = await apiary.get(route.params.url);
-      console.log(response);
+    // console.log(response);
     setDetails(response.data);
   };
 
@@ -34,21 +26,23 @@ export default function DetailScreen() {
   // vote
   const chooseOption = async (url) => {
     const info = await apiary.post(url);
-    console.log(info)
+    // console.log(info);
     fetchData();
-  }
+  };
 
   return (
     <SafeAreaView>
       <Text style={styles.question}> {details.question} </Text>
-      <Text style={styles.instruction}>Choose one of the following option : </Text>
+      <Text style={styles.instruction}>
+        Choose one of the following option :{" "}
+      </Text>
 
       <FlatList
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.url}
         data={details.choices}
         renderItem={({ item }) => {
-            // console.log("item", item);
+          // console.log("item", item);
           return (
             <Choice
               voteChange={() => chooseOption(item.url)}
@@ -73,5 +67,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: "nunito-regular",
     padding: 10,
-  }
+  },
 });

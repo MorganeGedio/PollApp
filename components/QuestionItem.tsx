@@ -8,10 +8,16 @@ export default function QuestionItem(props) {
         <View style={styles.baseText}>
           <Text style={styles.titleText}>{props.title}</Text>
           <Text style={styles.descriptionText}>Created on: {props.date}</Text>
-          <Image style={styles.icon} source={require('../assets/images/point-to.png')} />
+          <Image
+            style={styles.icon}
+            source={require("../assets/images/point-to.png")}
+          />
         </View>
-        <View style={styles.box}>
-          <Image style={styles.image} source={require('../assets/images/hand.png')} />
+        <View>
+          <Image
+            style={styles.image}
+            source={require("../assets/images/hand.png")}
+          />
         </View>
       </View>
     </TouchableOpacity>
@@ -20,19 +26,18 @@ export default function QuestionItem(props) {
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 30,
-    height: 120,
-    flexDirection: "row",
-    backgroundColor: "#dfcdc3",
-    justifyContent: "space-between",
-    borderRadius: 10,
+    marginHorizontal: 20,
     marginVertical: 20,
+    height: 130,
+    backgroundColor: "#dfcdc3",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: {
-	    width: 0,
-	    height: 2,
+      width: 0,
+      height: 2,
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
@@ -40,12 +45,8 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  box: {
     justifyContent: "center",
-    margin: 10,
+    alignItems: "center",
   },
   icon: {
     width: 20,
@@ -53,8 +54,9 @@ const styles = StyleSheet.create({
   },
   baseText: {
     padding: 20,
-    flexDirection: "column",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    flexGrow: 1,
+    flex: 1,
   },
   titleText: {
     fontFamily: "nunito-bold",
