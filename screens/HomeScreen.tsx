@@ -61,5 +61,7 @@ const styles = StyleSheet.create({
   mainTitle: {
     fontFamily: "nunito-bold",
     fontSize: 30,
+    textAlign: "center",
+    marginHorizontal: 10,
   },
 });

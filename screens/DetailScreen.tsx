@@ -13,9 +13,9 @@ export default function DetailScreen() {
   const [details, setDetails] = useState({ question: "", choices: [] });
 
   const fetchData = async () => {
-    // console.log("test");
+    console.log("test");
     const response = await apiary.get(route.params.url);
-    // console.log(response);
+    console.log(response);
     setDetails(response.data);
   };
 
@@ -26,7 +26,7 @@ export default function DetailScreen() {
   // vote
   const chooseOption = async (url) => {
     const info = await apiary.post(url);
-    // console.log(info);
+    console.log(info);
     fetchData();
   };
 
@@ -41,6 +41,7 @@ export default function DetailScreen() {
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.url}
         data={details.choices}
+        extraData={details.choices}
         renderItem={({ item }) => {
           // console.log("item", item);
           return (
@@ -62,10 +63,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: "nunito-bold",
     padding: 5,
+    textAlign: "center",
+    marginTop: 20,
   },
   instruction: {
     fontSize: 15,
     fontFamily: "nunito-regular",
     padding: 10,
+    textAlign: "center",
   },
 });

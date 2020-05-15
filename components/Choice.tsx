@@ -1,23 +1,28 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-export default function Choice(props) {
+interface Props {
+  title: string;
+  votes: number;
+  showVote: boolean;
+  voteChange: (url: string) => void;
+}
+
+export default function Choice(props: Props) {
   const [showVotes, setShowVotes] = useState(false);
 
   function vote() {
     setShowVotes(true);
-    {
-      props.voteChange;
-    }
   }
 
   return (
-    <TouchableOpacity style={styles.choice} onPress={vote}>
+    <TouchableOpacity style={styles.choice} onPress={() => props.voteChange}>
       <View style={styles.option}>
         <Text style={styles.choiceText}>{props.title}</Text>
         {showVotes ? (
           <Text style={styles.choiceText}> - {props.votes} votes !</Text>
         ) : null}
+        {/* <Text style={styles.choiceText}> - {props.votes} votes !</Text> */}
       </View>
     </TouchableOpacity>
   );
