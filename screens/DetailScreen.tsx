@@ -10,7 +10,7 @@ export default function DetailScreen() {
 
   const [details, setDetails] = useState({ question: "", choices: [] });
 
-  const [showVotes, setShowVotes] = useState(false);
+  const [displayVotes, setDisplayVotes] = useState(false);
 
   const [hasVoted, setHasVoted] = useState(false);
 
@@ -28,9 +28,9 @@ export default function DetailScreen() {
   // vote  
   const chooseOption = async (url) => {
     const info = await apiary.post(url);
-    console.log(info);
+    // console.log(info);
     fetchData();
-    setShowVotes(true);
+    setDisplayVotes(true);
     setHasVoted(true);
   };
 
@@ -53,7 +53,7 @@ export default function DetailScreen() {
               disabled={hasVoted}
               voteChange={() => chooseOption(item.url)}
               title={item.choice}
-              showVote={showVotes}
+              showVote={displayVotes}
               votes={item.votes} 
             ></Choice>
           );

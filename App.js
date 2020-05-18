@@ -10,6 +10,7 @@ import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
 import HomeScreen from "./screens/HomeScreen";
 import DetailScreen from "./screens/DetailScreen";
+import AddQuestionScreen from "./screens/AddQuestionScreen";
 
 
 const Stack = createStackNavigator();
@@ -68,13 +69,17 @@ export default function App(props) {
           >
             <Stack.Screen 
               name="Questions" 
-              component={HomeScreen} 
+              component={BottomTabNavigator} 
               options={{
-                title:"Overview"
+                title:"Questions"
                 }} />
             <Stack.Screen 
               name="Details" 
               component={DetailScreen} 
+              />
+            <Stack.Screen 
+              name="Add" 
+              component={AddQuestionScreen} 
               />
           </Stack.Navigator>
         </NavigationContainer>

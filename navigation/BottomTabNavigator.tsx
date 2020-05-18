@@ -4,7 +4,7 @@ import * as React from 'react';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
-import DetailScreen from '../screens/DetailScreen';
+import AddQuestionScreen from '../screens/AddQuestionScreen';
 
 
 const BottomTab = createBottomTabNavigator();
@@ -27,10 +27,10 @@ export default function BottomTabNavigator({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="Details"
-        component={DetailScreen}
+        name="Add question"
+        component={AddQuestionScreen}
         options={{
-          title: 'Detail',
+          title: 'Add a question',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
         }}
       />
