@@ -1,21 +1,23 @@
 import * as WebBrowser from "expo-web-browser";
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
+import { Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import { useNavigation } from "@react-navigation/native";
 import Choice from "../components/Choice";
 import apiary from "../apiary";
 
 export default function DetailScreen() {
   const route = useRoute();
-  const navigation = useNavigation();
 
   const [details, setDetails] = useState({ question: "", choices: [] });
 
+  const [showVotes, setShowVotes] = useState(false);
+
+  const [hasVoted, setHasVoted] = useState(false);
+
   const fetchData = async () => {
-    console.log("test");
+    // console.log("test");
     const response = await apiary.get(route.params.url);
-    console.log(response);
+    // console.log(response);
     setDetails(response.data);
   };
 
@@ -23,11 +25,13 @@ export default function DetailScreen() {
     fetchData();
   }, []);
 
-  // vote
+  // vote  
   const chooseOption = async (url) => {
     const info = await apiary.post(url);
     console.log(info);
     fetchData();
+    setShowVotes(true);
+    setHasVoted(true);
   };
 
   return (
@@ -45,15 +49,16 @@ export default function DetailScreen() {
         renderItem={({ item }) => {
           // console.log("item", item);
           return (
-            <Choice
+            <Choice 
+              disabled={hasVoted}
               voteChange={() => chooseOption(item.url)}
               title={item.choice}
-              votes={item.votes}
+              showVote={showVotes}
+              votes={item.votes} 
             ></Choice>
           );
         }}
       />
-      {/* <Button title="Go back" onPress={() => navigation.goBack()} /> */}
     </SafeAreaView>
   );
 }

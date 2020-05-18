@@ -5,24 +5,22 @@ interface Props {
   title: string;
   votes: number;
   showVote: boolean;
-  voteChange: (url: string) => void;
+  disabled: boolean;
+  voteChange: () => void;
 }
 
 export default function Choice(props: Props) {
-  const [showVotes, setShowVotes] = useState(false);
-
-  function vote() {
-    setShowVotes(true);
-  }
-
   return (
-    <TouchableOpacity style={styles.choice} onPress={() => props.voteChange}>
+    <TouchableOpacity
+      style={styles.choice}
+      onPress={props.voteChange}
+      disabled={props.disabled}
+    >
       <View style={styles.option}>
         <Text style={styles.choiceText}>{props.title}</Text>
-        {showVotes ? (
+        {props.showVote ? (
           <Text style={styles.choiceText}> - {props.votes} votes !</Text>
         ) : null}
-        {/* <Text style={styles.choiceText}> - {props.votes} votes !</Text> */}
       </View>
     </TouchableOpacity>
   );
