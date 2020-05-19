@@ -1,6 +1,5 @@
-import * as WebBrowser from "expo-web-browser";
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
+import { Text, StyleSheet, FlatList, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import QuestionItem from "../components/QuestionItem";
 import apiary from "../apiary";
@@ -21,21 +20,23 @@ export default function HomeScreen() {
   const navigation = useNavigation();
 
   // define what happens when Component is pressed
-  function questionPress(url) {
+  function questionPress(url: string) {
     navigation.navigate("Details", { url });
     // agmt 1 = route name + agmt 2 = params
   }
 
-  function formatDate(string) {
-    const date = new Date(string);
-    const options = { year: "numeric", month: "long", day: "numeric" };
+  function formatDate(publicationDate: string) {
+    const date = new Date(publicationDate);
+    const options = { year: "numeric", month: "numeric", day: "numeric" };
     return date.toLocaleDateString([], options);
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.mainTitle}> Choose your poll </Text>
-
+      <TouchableOpacity style={styles.addQuestion} onPress={() => navigation.navigate("Add")}>
+        <Text style={styles.addText}>ADD YOUR QUESTION</Text>
+      </TouchableOpacity>
       <FlatList
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.url}
@@ -43,7 +44,6 @@ export default function HomeScreen() {
         renderItem={({ item }) => (
           <QuestionItem
             navigateToQuestion={() => questionPress(item.url)}
-            // url={item.url}
             title={item.question}
             date={formatDate(item.published_at)}
           />
@@ -63,5 +63,26 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: "center",
     marginHorizontal: 10,
+  },
+  addQuestion: {
+    backgroundColor: "#7FD1AE",
+    padding: 10,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 30,
+    marginHorizontal: 60,
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 2.62,
+  },
+  addText: {
+    fontFamily: "nunito-bold",
+    fontSize: 15,
   },
 });

@@ -26,7 +26,7 @@ export default function DetailScreen() {
   }, []);
 
   // vote  
-  const chooseOption = async (url) => {
+  const chooseOption = async (url: string) => {
     const info = await apiary.post(url);
     // console.log(info);
     fetchData();
@@ -38,7 +38,7 @@ export default function DetailScreen() {
     <SafeAreaView>
       <Text style={styles.question}> {details.question} </Text>
       <Text style={styles.instruction}>
-        Choose one of the following option :{" "}
+        Choose one of the following option :
       </Text>
 
       <FlatList

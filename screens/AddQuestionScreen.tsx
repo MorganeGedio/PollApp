@@ -6,34 +6,49 @@ import {
   StyleSheet,
 } from "react-native";
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import apiary from "../apiary";
 
 export default function AddQuestionScreen() {
   const [question, onChangeQuestion] = useState("Question");
   const [choice, onChangeChoice] = useState("Choices");
 
-  const createChoice = (choicesInput) => {
+  const navigation = useNavigation();
+
+  const createChoices = (choicesInput: string) => {
+    // console.log(choicesInput)
     let choices = choicesInput.split(",");
+    // console.log(choices)
     // array of strings
     return JSON.stringify(choices);
   };
 
-  const handleSubmit = (event) => {
-    // event.preventDefault();
-    const choicesArray = createChoice(choice);
-    const choicesObject =
-      '{"question": "' + question + '", "choices": ' + choicesArray + "}";
-    apiary.post("/questions", choicesObject);
+  const choicesArray = createChoices(choice);
+  const newQuestionFull =
+    '{"question": "' + question + '", "choices": ' + choicesArray + "}";
+
+  const handleSubmit = (event: { preventDefault: () => void }) => {
+    apiary.post("/questions", newQuestionFull)
+      .then(response => {
+          alert("New question created");
+          setTimeout(function() {
+            navigation.navigate("QuestionsList");         
+          }, 2000);   
+      })
+    // navigation.navigate("QuestionsList");
+    event.preventDefault();
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Add a new question to the list</Text>
+
       <Text style={styles.label}>Write your question: </Text>
       <TextInput
         style={styles.input}
         onChangeText={(question) => onChangeQuestion(question)}
       ></TextInput>
+
       <Text style={styles.label}>
         List the options {"\n"} (separated by a comma):{" "}
       </Text>
@@ -41,8 +56,9 @@ export default function AddQuestionScreen() {
         style={styles.input}
         onChangeText={(choice) => onChangeChoice(choice)}
       ></TextInput>
+
       <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
-        <Text style={styles.submitText}>SEND ! </Text>
+        <Text style={styles.submitText}>SEND !</Text>
       </TouchableOpacity>
     </View>
   );
