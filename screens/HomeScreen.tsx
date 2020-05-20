@@ -1,28 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { Text, StyleSheet, FlatList, SafeAreaView, TouchableOpacity } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import QuestionItem from "../components/QuestionItem";
 import apiary from "../apiary";
 
 export default function HomeScreen() {
   const [questions, setQuestions] = useState([]);
 
+  const route = useRoute();
+
   // fetch the API - list of questions
+  const fetchData = async () => {
+    const response = await apiary.get("/questions");
+    setQuestions(response.data);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await apiary.get("/questions");
-      setQuestions(response.data);
-    };
     fetchData();
   }, []);
   // empty array to avoid activating effect hook on component updates but only for the mounting
 
+  useEffect(() => {
+    if (route.params.reload) {
+      fetchData();
+    }
+  }, [route.params.reload]);
+
   const navigation = useNavigation();
 
-  // define what happens when Component is pressed
   function questionPress(url: string) {
     navigation.navigate("Details", { url });
-    // agmt 1 = route name + agmt 2 = params
   }
 
   function formatDate(publicationDate: string) {
@@ -34,7 +48,10 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.mainTitle}> Choose your poll </Text>
-      <TouchableOpacity style={styles.addQuestion} onPress={() => navigation.navigate("Add")}>
+      <TouchableOpacity
+        style={styles.addQuestion}
+        onPress={() => navigation.navigate("Add")}
+      >
         <Text style={styles.addText}>ADD YOUR QUESTION</Text>
       </TouchableOpacity>
       <FlatList

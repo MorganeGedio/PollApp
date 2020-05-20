@@ -35,10 +35,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginVertical: 20,
     height: 130,
-    backgroundColor: "#dfcdc3",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: "#dfcdc3",
     borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: {
@@ -51,8 +51,6 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    justifyContent: "center",
-    alignItems: "center",
   },
   icon: {
     width: 20,
@@ -60,16 +58,17 @@ const styles = StyleSheet.create({
   },
   baseText: {
     padding: 20,
-    justifyContent: "space-between",
     flexGrow: 1,
     flex: 1,
   },
   titleText: {
     fontFamily: "nunito-bold",
     fontSize: 20,
+    marginBottom: 5,
   },
   descriptionText: {
     fontFamily: "nunito-regular",
     fontSize: 13,
+    marginBottom: 5,
   },
 });

@@ -16,7 +16,6 @@ export default function AddQuestionScreen() {
   const navigation = useNavigation();
 
   const createChoices = (choicesInput: string) => {
-    // console.log(choicesInput)
     let choices = choicesInput.split(",");
     // console.log(choices)
     // array of strings
@@ -28,14 +27,8 @@ export default function AddQuestionScreen() {
     '{"question": "' + question + '", "choices": ' + choicesArray + "}";
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
-    apiary.post("/questions", newQuestionFull)
-      .then(response => {
-          alert("New question created");
-          setTimeout(function() {
-            navigation.navigate("QuestionsList");         
-          }, 2000);   
-      })
-    // navigation.navigate("QuestionsList");
+    apiary.post("/questions", newQuestionFull);
+    navigation.navigate("QuestionsList", { reload: true });
     event.preventDefault();
   };
 
@@ -90,7 +83,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   submit: {
-    backgroundColor: "#E0F2DB",
+    backgroundColor: "#7FD1AE",
     padding: 10,
     height: 70,
     alignItems: "center",

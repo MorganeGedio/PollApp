@@ -76,10 +76,16 @@ export default function App(props) {
                 title: "Questions",
               }}
             /> */}
-            <Stack.Screen name="QuestionsList" component={HomeScreen} />
+            <Stack.Screen
+              name="QuestionsList"
+              component={HomeScreen}
+              initialParams={{ reload: false }}
+              options={{
+                title: "Questions List",
+              }}
+            />
             <Stack.Screen name="Details" component={DetailScreen} />
             <Stack.Screen name="Add" component={AddQuestionScreen} />
-            
           </Stack.Navigator>
         </NavigationContainer>
       </View>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 interface Props {
@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
   },
   option: {
     flexDirection: "row",
-    justifyContent: "space-between",
   },
   choiceText: {
     fontFamily: "nunito-regular",

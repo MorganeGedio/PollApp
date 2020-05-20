@@ -25,7 +25,6 @@ export default function DetailScreen() {
     fetchData();
   }, []);
 
-  // vote  
   const chooseOption = async (url: string) => {
     const info = await apiary.post(url);
     // console.log(info);
@@ -49,12 +48,12 @@ export default function DetailScreen() {
         renderItem={({ item }) => {
           // console.log("item", item);
           return (
-            <Choice 
+            <Choice
               disabled={hasVoted}
               voteChange={() => chooseOption(item.url)}
               title={item.choice}
               showVote={displayVotes}
-              votes={item.votes} 
+              votes={item.votes}
             ></Choice>
           );
         }}
