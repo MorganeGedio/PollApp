@@ -11,18 +11,23 @@ interface Props {
 
 export default function Choice(props: Props) {
   return (
-    <TouchableOpacity
-      style={styles.choice}
-      onPress={props.voteChange}
-      disabled={props.disabled}
-    >
-      <View style={styles.option}>
-        <Text style={styles.choiceText}>{props.title}</Text>
-        {props.showVote ? (
-          <Text style={styles.choiceText}> - {props.votes} votes !</Text>
-        ) : null}
-      </View>
-    </TouchableOpacity>
+    <View>
+      <TouchableOpacity
+        style={styles.choice}
+        onPress={props.voteChange}
+        disabled={props.disabled}
+      >
+        <View>
+          <Text style={styles.choiceText}>{props.title}</Text>
+          {props.showVote ? (
+            <Text style={styles.voteText}>
+              {" "}
+              received {props.votes} votes !{" "}
+            </Text>
+          ) : null}
+        </View>
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -45,11 +50,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
   },
-  option: {
-    flexDirection: "row",
-  },
   choiceText: {
     fontFamily: "nunito-regular",
     fontSize: 20,
+    textAlign: "center",
+  },
+  voteText: {
+    fontFamily: "nunito-regular",
+    fontSize: 17,
+    textAlign: "center",
   },
 });

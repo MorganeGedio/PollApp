@@ -11,6 +11,7 @@ export default function DetailScreen() {
   const [details, setDetails] = useState({ question: "", choices: [] });
 
   const [displayVotes, setDisplayVotes] = useState(false);
+  const [displayTotal, setDisplayTotal] = useState(false);
 
   const [hasVoted, setHasVoted] = useState(false);
 
@@ -30,7 +31,16 @@ export default function DetailScreen() {
     // console.log(info);
     fetchData();
     setDisplayVotes(true);
+    setDisplayTotal(true);
     setHasVoted(true);
+  };
+
+  const totalVotes = (choices: string | any[]) => {
+    let sum = 0;
+    for (let i = 0; i < choices.length; i++) {
+      sum += choices[i].votes;
+    }
+    return sum;
   };
 
   return (
@@ -39,7 +49,6 @@ export default function DetailScreen() {
       <Text style={styles.instruction}>
         Choose one of the following option :
       </Text>
-
       <FlatList
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.url}
@@ -58,6 +67,11 @@ export default function DetailScreen() {
           );
         }}
       />
+      {displayTotal ? (
+        <Text style={styles.total}>
+          {totalVotes(details.choices)} votes in total
+        </Text>
+      ) : null}
     </SafeAreaView>
   );
 }
@@ -74,6 +88,14 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: "nunito-regular",
     padding: 10,
+    textAlign: "center",
+  },
+  total: {
+    fontFamily: "nunito-bold",
+    padding: 10,
+    fontSize: 15,
+    marginTop: 3,
+    color: "#707070",
     textAlign: "center",
   },
 });
