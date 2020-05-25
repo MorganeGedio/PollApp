@@ -1,13 +1,13 @@
 import * as React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-interface Props {
+export interface QuestionItemProps {
   title: string;
   date: string;
   navigateToQuestion: () => void;
 }
 
-export default function QuestionItem(props: Props) {
+export default function QuestionItem(props: QuestionItemProps) {
   return (
     <TouchableOpacity onPress={props.navigateToQuestion}>
       <View style={styles.container}>
