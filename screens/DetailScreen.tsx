@@ -9,16 +9,10 @@ export default function DetailScreen() {
   const route = useRoute();
 
   const [details, setDetails] = useState({ question: "", choices: [] });
-
-  const [displayVotes, setDisplayVotes] = useState(false);
-  const [displayTotal, setDisplayTotal] = useState(false);
-
   const [hasVoted, setHasVoted] = useState(false);
 
   const fetchData = async () => {
-    // console.log("test");
     const response = await apiary.get(route.params.url);
-    // console.log(response);
     setDetails(response.data);
   };
 
@@ -29,8 +23,6 @@ export default function DetailScreen() {
   const chooseOption = async (url: string) => {
     await apiary.post(url);
     fetchData();
-    setDisplayVotes(true);
-    setDisplayTotal(true);
     setHasVoted(true);
   };
 
@@ -54,19 +46,18 @@ export default function DetailScreen() {
         data={details.choices}
         extraData={details.choices}
         renderItem={({ item }) => {
-          // console.log("item", item);
           return (
             <Choice
               disabled={hasVoted}
               voteChange={() => chooseOption(item.url)}
               title={item.choice}
-              showVote={displayVotes}
+              showVote={hasVoted}
               votes={item.votes}
             ></Choice>
           );
         }}
       />
-      {displayTotal ? (
+      {hasVoted ? (
         <Text style={styles.total}>
           {totalVotes(details.choices)} votes in total
         </Text>
