@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import Choice from "../components/Choice";
+import COLORS from "../constants/Colors";
 import apiary from "../apiary";
 
 export default function DetailScreen() {
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 15,
     marginTop: 3,
-    color: "#707070",
+    color: COLORS.totalColor,
     textAlign: "center",
   },
 });

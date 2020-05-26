@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import COLORS from "../constants/Colors";
 import apiary from "../apiary";
 
 export default function AddQuestionScreen() {
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderColor: "gray",
+    borderColor: COLORS.borderColor,
     borderWidth: 0.5,
     borderRadius: 10,
     fontFamily: "roboto",
@@ -81,14 +82,14 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   submit: {
-    backgroundColor: "#7FD1AE",
+    backgroundColor: COLORS.submitBackground,
     padding: 10,
     height: 70,
     alignItems: "center",
     justifyContent: "center",
     margin: 30,
     borderRadius: 10,
-    shadowColor: "#000",
+    shadowColor: COLORS.shadowColor,
     shadowOffset: {
       width: 0,
       height: 1,

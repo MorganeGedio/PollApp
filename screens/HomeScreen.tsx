@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
+import COLORS from "../constants/Colors"
 import QuestionItem from "../components/QuestionItem";
 import apiary from "../apiary";
 
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   addQuestion: {
-    backgroundColor: "#7FD1AE",
+    backgroundColor: COLORS.addQuestionBackground,
     padding: 10,
     height: 50,
     alignItems: "center",
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     marginHorizontal: 60,
     borderRadius: 10,
-    shadowColor: "#000",
+    shadowColor: COLORS.shadowColor,
     shadowOffset: {
       width: 0,
       height: 1,

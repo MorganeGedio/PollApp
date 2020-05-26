@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import COLORS from "../constants/Colors";
 
 interface Props {
   title: string;
@@ -33,7 +34,7 @@ export default function Choice(props: Props) {
 
 const styles = StyleSheet.create({
   choice: {
-    backgroundColor: "#ffe8df",
+    backgroundColor: COLORS.choiceBackground,
     padding: 10,
     height: 70,
     alignItems: "center",
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginTop: 30,
     borderRadius: 10,
-    shadowColor: "#000",
+    shadowColor: COLORS.shadowColor,
     shadowOffset: {
       width: 0,
       height: 1,

@@ -1,14 +1,11 @@
-const tintColor = '#2f95dc';
-
-export default {
-  tintColor,
-  tabIconDefault: '#ccc',
-  tabIconSelected: tintColor,
-  tabBar: '#fefefe',
-  errorBackground: 'red',
-  errorText: '#fff',
-  warningBackground: '#EAEB5E',
-  warningText: '#666804',
-  noticeBackground: tintColor,
-  noticeText: '#fff',
+const COLORS = {
+  questionBackground: "#dfcdc3",
+  choiceBackground: "#ffe8df",
+  submitBackground: "#7FD1AE",
+  shadowColor: "#000",
+  borderColor: "gray",
+  totalColor: "#707070",
+  addQuestionBackground: "#7FD1AE",
 };
+
+export default COLORS;
