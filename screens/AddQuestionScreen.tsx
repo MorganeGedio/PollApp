@@ -17,8 +17,6 @@ export default function AddQuestionScreen() {
 
   const createChoices = (choicesInput: string) => {
     let choices = choicesInput.split(",");
-    // console.log(choices)
-    // array of strings
     return JSON.stringify(choices);
   };
 

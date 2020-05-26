@@ -27,8 +27,7 @@ export default function DetailScreen() {
   }, []);
 
   const chooseOption = async (url: string) => {
-    const info = await apiary.post(url);
-    // console.log(info);
+    await apiary.post(url);
     fetchData();
     setDisplayVotes(true);
     setDisplayTotal(true);

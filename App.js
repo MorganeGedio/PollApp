@@ -69,13 +69,6 @@ export default function App(props) {
               },
             }}
           >
-            {/* <Stack.Screen
-              name="Questions"
-              component={BottomTabNavigator}
-              options={{
-                title: "Questions",
-              }}
-            /> */}
             <Stack.Screen
               name="QuestionsList"
               component={HomeScreen}
