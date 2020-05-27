@@ -4,6 +4,7 @@ import { Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import Choice from "../components/Choice";
 import colors from "../constants/Colors";
+import fonts from "../constants/Fonts";
 import apiary from "../apiary";
 
 export default function DetailScreen() {
@@ -70,19 +71,19 @@ export default function DetailScreen() {
 const styles = StyleSheet.create({
   question: {
     fontSize: 25,
-    fontFamily: "nunito-bold",
+    fontFamily: fonts.bold,
     padding: 5,
     textAlign: "center",
     marginTop: 20,
   },
   instruction: {
     fontSize: 15,
-    fontFamily: "nunito-regular",
+    fontFamily: fonts.regular,
     padding: 10,
     textAlign: "center",
   },
   total: {
-    fontFamily: "nunito-bold",
+    fontFamily: fonts.bold,
     padding: 10,
     fontSize: 15,
     marginTop: 3,

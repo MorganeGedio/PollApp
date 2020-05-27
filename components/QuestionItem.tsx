@@ -1,6 +1,7 @@
 import * as React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import colors from "../constants/Colors";
+import fonts from "../constants/Fonts";
 
 interface Props {
   title: string;
@@ -63,12 +64,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   titleText: {
-    fontFamily: "nunito-bold",
+    fontFamily: fonts.bold,
     fontSize: 20,
     marginBottom: 5,
   },
   descriptionText: {
-    fontFamily: "nunito-regular",
+    fontFamily: fonts.regular,
     fontSize: 13,
     marginBottom: 5,
   },

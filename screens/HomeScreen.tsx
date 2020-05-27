@@ -8,7 +8,8 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
-import colors from "../constants/Colors"
+import colors from "../constants/Colors";
+import fonts from "../constants/Fonts";
 import QuestionItem from "../components/QuestionItem";
 import apiary from "../apiary";
 
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
   },
 
   mainTitle: {
-    fontFamily: "nunito-bold",
+    fontFamily: fonts.bold,
     fontSize: 30,
     textAlign: "center",
     marginHorizontal: 10,
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
   },
   addText: {
-    fontFamily: "nunito-bold",
+    fontFamily: fonts.bold,
     fontSize: 15,
   },
 });

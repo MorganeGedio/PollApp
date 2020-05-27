@@ -8,6 +8,7 @@ import {
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../constants/Colors";
+import fonts from "../constants/Fonts";
 import apiary from "../apiary";
 
 export default function AddQuestionScreen() {
@@ -61,13 +62,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   title: {
-    fontFamily: "nunito-bold",
+    fontFamily: fonts.bold,
     textAlign: "center",
     fontSize: 25,
     padding: 10,
   },
   label: {
-    fontFamily: "nunito-bold",
+    fontFamily: fonts.bold,
     padding: 10,
     fontSize: 20,
     textAlign: "center",
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     borderColor: colors.borderColor,
     borderWidth: 0.5,
     borderRadius: 10,
-    fontFamily: "roboto",
+    fontFamily: fonts.input,
     fontSize: 20,
     padding: 10,
   },
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
   },
   submitText: {
-    fontFamily: "nunito-bold",
+    fontFamily: fonts.bold,
     fontSize: 20,
   },
 });

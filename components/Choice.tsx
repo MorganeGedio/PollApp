@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import colors from "../constants/Colors";
+import fonts from "../constants/Fonts";
 
 interface Props {
   title: string;
@@ -52,12 +53,12 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
   },
   choiceText: {
-    fontFamily: "nunito-regular",
+    fontFamily: fonts.regular,
     fontSize: 20,
     textAlign: "center",
   },
   voteText: {
-    fontFamily: "nunito-regular",
+    fontFamily: fonts.regular,
     fontSize: 17,
     textAlign: "center",
   },
