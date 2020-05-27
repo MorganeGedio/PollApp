@@ -7,16 +7,23 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import colors from "../constants/Colors";
-import fonts from "../constants/Fonts";
-import screens from "../constants/Screens";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Colors } from "../constants/Colors";
+import { Fonts } from "../constants/Fonts";
+import { Screens } from "../constants/Screens";
+import { RootStackParamList } from "../App";
 import apiary from "../apiary";
+
+type AddScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  Screens.add
+>;
 
 export default function AddQuestionScreen() {
   const [question, onChangeQuestion] = useState("Question");
   const [choice, onChangeChoice] = useState("Choices");
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<AddScreenNavigationProp>();
 
   const createChoices = (choicesInput: string) => {
     let choices = choicesInput.split(",");
@@ -29,7 +36,7 @@ export default function AddQuestionScreen() {
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     apiary.post("/questions", newQuestionFull);
-    navigation.navigate(screens.list, { reload: true });
+    navigation.navigate(Screens.list, { reload: true });
     event.preventDefault();
   };
 
@@ -63,35 +70,35 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   title: {
-    fontFamily: fonts.bold,
+    fontFamily: Fonts.bold,
     textAlign: "center",
     fontSize: 25,
     padding: 10,
   },
   label: {
-    fontFamily: fonts.bold,
+    fontFamily: Fonts.bold,
     padding: 10,
     fontSize: 20,
     textAlign: "center",
   },
   input: {
     height: 50,
-    borderColor: colors.borderColor,
+    borderColor: Colors.borderColor,
     borderWidth: 0.5,
     borderRadius: 10,
-    fontFamily: fonts.input,
+    fontFamily: Fonts.input,
     fontSize: 20,
     padding: 10,
   },
   submit: {
-    backgroundColor: colors.submitBackground,
+    backgroundColor: Colors.submitBackground,
     padding: 10,
     height: 70,
     alignItems: "center",
     justifyContent: "center",
     margin: 30,
     borderRadius: 10,
-    shadowColor: colors.shadowColor,
+    shadowColor: Colors.shadowColor,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -100,7 +107,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
   },
   submitText: {
-    fontFamily: fonts.bold,
+    fontFamily: Fonts.bold,
     fontSize: 20,
   },
 });

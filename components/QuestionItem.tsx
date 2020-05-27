@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import colors from "../constants/Colors";
-import fonts from "../constants/Fonts";
+import { Colors } from "../constants/Colors";
+import { Fonts } from "../constants/Fonts";
 
 interface Props {
   title: string;
@@ -40,9 +40,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: colors.questionBackground,
+    backgroundColor: Colors.questionBackground,
     borderRadius: 10,
-    shadowColor: colors.shadowColor,
+    shadowColor: Colors.shadowColor,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -64,12 +64,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   titleText: {
-    fontFamily: fonts.bold,
+    fontFamily: Fonts.bold,
     fontSize: 20,
     marginBottom: 5,
   },
   descriptionText: {
-    fontFamily: fonts.regular,
+    fontFamily: Fonts.regular,
     fontSize: 13,
     marginBottom: 5,
   },

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import colors from "../constants/Colors";
-import fonts from "../constants/Fonts";
+import { Colors } from "../constants/Colors";
+import { Fonts } from "../constants/Fonts";
 
 interface Props {
   title: string;
@@ -35,7 +35,7 @@ export default function Choice(props: Props) {
 
 const styles = StyleSheet.create({
   choice: {
-    backgroundColor: colors.choiceBackground,
+    backgroundColor: Colors.choiceBackground,
     padding: 10,
     height: 70,
     alignItems: "center",
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginTop: 30,
     borderRadius: 10,
-    shadowColor: colors.shadowColor,
+    shadowColor: Colors.shadowColor,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -53,12 +53,12 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
   },
   choiceText: {
-    fontFamily: fonts.regular,
+    fontFamily: Fonts.regular,
     fontSize: 20,
     textAlign: "center",
   },
   voteText: {
-    fontFamily: fonts.regular,
+    fontFamily: Fonts.regular,
     fontSize: 17,
     textAlign: "center",
   },

@@ -6,20 +6,32 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useRoute } from "@react-navigation/native";
-import colors from "../constants/Colors";
-import fonts from "../constants/Fonts";
+import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Colors } from "../constants/Colors";
+import { Fonts } from "../constants/Fonts";
 import QuestionItem from "../components/QuestionItem";
-import screens from "../constants/Screens";
+import { Screens } from "../constants/Screens";
+import { RootStackParamList } from "../App";
 import apiary from "../apiary";
+
+type HomeScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  Screens.list
+>;
+
+type HomeScreenRouteProp = RouteProp<RootStackParamList, Screens.list>;
+
+export type HomeScreenParamList = {
+  reload: boolean;
+};
 
 export default function HomeScreen() {
   const [questions, setQuestions] = useState([]);
+  const navigation = useNavigation<HomeScreenNavigationProp>();
 
-  const route = useRoute();
+  const route = useRoute<HomeScreenRouteProp>();
 
-  // fetch the API - list of questions
   const fetchData = async () => {
     const response = await apiary.get("/questions");
     setQuestions(response.data);
@@ -28,7 +40,6 @@ export default function HomeScreen() {
   useEffect(() => {
     fetchData();
   }, []);
-  // empty array to avoid activating effect hook on component updates but only for the mounting
 
   useEffect(() => {
     if (route.params.reload) {
@@ -36,10 +47,8 @@ export default function HomeScreen() {
     }
   }, [route.params.reload]);
 
-  const navigation = useNavigation();
-
   function questionPress(url: string) {
-    navigation.navigate(screens.details, { url });
+    navigation.navigate(Screens.details, { url });
   }
 
   function formatDate(publicationDate: string) {
@@ -53,7 +62,7 @@ export default function HomeScreen() {
       <Text style={styles.mainTitle}> Choose your poll </Text>
       <TouchableOpacity
         style={styles.addQuestion}
-        onPress={() => navigation.navigate(screens.add)}
+        onPress={() => navigation.navigate(Screens.add)}
       >
         <Text style={styles.addText}>ADD YOUR QUESTION</Text>
       </TouchableOpacity>
@@ -79,13 +88,13 @@ const styles = StyleSheet.create({
   },
 
   mainTitle: {
-    fontFamily: fonts.bold,
+    fontFamily: Fonts.bold,
     fontSize: 30,
     textAlign: "center",
     marginHorizontal: 10,
   },
   addQuestion: {
-    backgroundColor: colors.addQuestionBackground,
+    backgroundColor: Colors.addQuestionBackground,
     padding: 10,
     height: 50,
     alignItems: "center",
@@ -93,7 +102,7 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     marginHorizontal: 60,
     borderRadius: 10,
-    shadowColor: colors.shadowColor,
+    shadowColor: Colors.shadowColor,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -102,7 +111,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
   },
   addText: {
-    fontFamily: fonts.bold,
+    fontFamily: Fonts.bold,
     fontSize: 15,
   },
 });

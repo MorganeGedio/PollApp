@@ -7,11 +7,17 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import useLinking from "./navigation/useLinking";
-import HomeScreen from "./screens/HomeScreen";
-import DetailScreen from "./screens/DetailScreen";
+import HomeScreen, { HomeScreenParamList } from "./screens/HomeScreen";
+import DetailScreen, { DetailsScreenParamList } from "./screens/DetailScreen";
 import AddQuestionScreen from "./screens/AddQuestionScreen";
-import colors from "./constants/Colors";
-import screens from "./constants/Screens";
+import { Colors } from "./constants/Colors";
+import { Screens } from "./constants/Screens";
+
+export type RootStackParamList = {
+  [Screens.list]: HomeScreenParamList;
+  [Screens.details]: DetailsScreenParamList;
+  [Screens.add]: undefined;
+};
 
 const Stack = createStackNavigator();
 
@@ -62,24 +68,24 @@ export default function App(props) {
           <Stack.Navigator
             screenOptions={{
               headerStyle: {
-                backgroundColor: colors.appHeaderBackground,
+                backgroundColor: Colors.appHeaderBackground,
               },
-              headerTintColor: colors.appHeaderText,
+              headerTintColor: Colors.appHeaderText,
               headerTitleStyle: {
                 fontWeight: "bold",
               },
             }}
           >
             <Stack.Screen
-              name={screens.list}
+              name={Screens.list}
               component={HomeScreen}
               initialParams={{ reload: false }}
               options={{
                 title: "Questions List",
               }}
             />
-            <Stack.Screen name={screens.details} component={DetailScreen} />
-            <Stack.Screen name={screens.add} component={AddQuestionScreen} />
+            <Stack.Screen name={Screens.details} component={DetailScreen} />
+            <Stack.Screen name={Screens.add} component={AddQuestionScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

@@ -1,14 +1,28 @@
 import * as WebBrowser from "expo-web-browser";
 import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, RouteProp } from "@react-navigation/native";
 import Choice from "../components/Choice";
-import colors from "../constants/Colors";
-import fonts from "../constants/Fonts";
+import { Screens } from "../constants/Screens";
+import { RootStackParamList } from "../App";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Colors } from "../constants/Colors";
+import { Fonts } from "../constants/Fonts";
 import apiary from "../apiary";
 
+type DetailsScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  Screens.details
+>;
+
+type DetailsScreenRouteProp = RouteProp<RootStackParamList, Screens.details>;
+
+export type DetailsScreenParamList = {
+  url: string;
+};
+
 export default function DetailScreen() {
-  const route = useRoute();
+  const route = useRoute<DetailsScreenRouteProp>();
 
   const [details, setDetails] = useState({ question: "", choices: [] });
   const [hasVoted, setHasVoted] = useState(false);
@@ -71,23 +85,23 @@ export default function DetailScreen() {
 const styles = StyleSheet.create({
   question: {
     fontSize: 25,
-    fontFamily: fonts.bold,
+    fontFamily: Fonts.bold,
     padding: 5,
     textAlign: "center",
     marginTop: 20,
   },
   instruction: {
     fontSize: 15,
-    fontFamily: fonts.regular,
+    fontFamily: Fonts.regular,
     padding: 10,
     textAlign: "center",
   },
   total: {
-    fontFamily: fonts.bold,
+    fontFamily: Fonts.bold,
     padding: 10,
     fontSize: 15,
     marginTop: 3,
-    color: colors.totalColor,
+    color: Colors.totalColor,
     textAlign: "center",
   },
 });
