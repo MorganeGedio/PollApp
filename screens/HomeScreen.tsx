@@ -11,6 +11,7 @@ import { useRoute } from "@react-navigation/native";
 import colors from "../constants/Colors";
 import fonts from "../constants/Fonts";
 import QuestionItem from "../components/QuestionItem";
+import screens from "../constants/Screens";
 import apiary from "../apiary";
 
 export default function HomeScreen() {
@@ -38,7 +39,7 @@ export default function HomeScreen() {
   const navigation = useNavigation();
 
   function questionPress(url: string) {
-    navigation.navigate("Details", { url });
+    navigation.navigate(screens.details, { url });
   }
 
   function formatDate(publicationDate: string) {
@@ -52,7 +53,7 @@ export default function HomeScreen() {
       <Text style={styles.mainTitle}> Choose your poll </Text>
       <TouchableOpacity
         style={styles.addQuestion}
-        onPress={() => navigation.navigate("Add")}
+        onPress={() => navigation.navigate(screens.add)}
       >
         <Text style={styles.addText}>ADD YOUR QUESTION</Text>
       </TouchableOpacity>

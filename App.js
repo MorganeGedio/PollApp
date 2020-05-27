@@ -5,12 +5,13 @@ import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import useLinking from "./navigation/useLinking";
 import HomeScreen from "./screens/HomeScreen";
 import DetailScreen from "./screens/DetailScreen";
 import AddQuestionScreen from "./screens/AddQuestionScreen";
+import colors from "./constants/Colors";
+import screens from "./constants/Screens";
 
 const Stack = createStackNavigator();
 
@@ -61,24 +62,24 @@ export default function App(props) {
           <Stack.Navigator
             screenOptions={{
               headerStyle: {
-                backgroundColor: "#7d5a5a",
+                backgroundColor: colors.appHeaderBackground,
               },
-              headerTintColor: "#fff",
+              headerTintColor: colors.appHeaderText,
               headerTitleStyle: {
                 fontWeight: "bold",
               },
             }}
           >
             <Stack.Screen
-              name="QuestionsList"
+              name={screens.list}
               component={HomeScreen}
               initialParams={{ reload: false }}
               options={{
                 title: "Questions List",
               }}
             />
-            <Stack.Screen name="Details" component={DetailScreen} />
-            <Stack.Screen name="Add" component={AddQuestionScreen} />
+            <Stack.Screen name={screens.details} component={DetailScreen} />
+            <Stack.Screen name={screens.add} component={AddQuestionScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>
@@ -89,6 +90,5 @@ export default function App(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
 });

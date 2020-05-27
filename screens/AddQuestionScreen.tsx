@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../constants/Colors";
 import fonts from "../constants/Fonts";
+import screens from "../constants/Screens";
 import apiary from "../apiary";
 
 export default function AddQuestionScreen() {
@@ -28,7 +29,7 @@ export default function AddQuestionScreen() {
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     apiary.post("/questions", newQuestionFull);
-    navigation.navigate("QuestionsList", { reload: true });
+    navigation.navigate(screens.list, { reload: true });
     event.preventDefault();
   };
 
