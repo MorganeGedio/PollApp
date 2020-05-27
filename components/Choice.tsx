@@ -8,7 +8,7 @@ interface Props {
   votes: number;
   showVote: boolean;
   disabled: boolean;
-  voteChange: () => void;
+  onPress: () => void;
 }
 
 export default function Choice(props: Props) {
@@ -16,7 +16,7 @@ export default function Choice(props: Props) {
     <View>
       <TouchableOpacity
         style={styles.choice}
-        onPress={props.voteChange}
+        onPress={props.onPress}
         disabled={props.disabled}
       >
         <View>

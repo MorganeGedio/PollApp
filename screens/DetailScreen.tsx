@@ -8,7 +8,7 @@ import { RootStackParamList } from "../App";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
-import apiary from "../apiary";
+import apiary from "../services/apiary";
 
 type DetailsScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -65,7 +65,7 @@ export default function DetailScreen() {
           return (
             <Choice
               disabled={hasVoted}
-              voteChange={() => chooseOption(item.url)}
+              onPress={() => chooseOption(item.url)}
               title={item.choice}
               showVote={hasVoted}
               votes={item.votes}

@@ -13,7 +13,7 @@ import { Fonts } from "../constants/Fonts";
 import QuestionItem from "../components/QuestionItem";
 import { Screens } from "../constants/Screens";
 import { RootStackParamList } from "../App";
-import apiary from "../apiary";
+import apiary from "../services/apiary";
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -72,7 +72,7 @@ export default function HomeScreen() {
         data={questions}
         renderItem={({ item }) => (
           <QuestionItem
-            navigateToQuestion={() => questionPress(item.url)}
+            onPress={() => questionPress(item.url)}
             title={item.question}
             date={formatDate(item.published_at)}
           />

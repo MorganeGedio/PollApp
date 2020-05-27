@@ -6,12 +6,12 @@ import { Fonts } from "../constants/Fonts";
 interface Props {
   title: string;
   date: string;
-  navigateToQuestion: () => void;
+  onPress: () => void;
 }
 
 export default function QuestionItem(props: Props) {
   return (
-    <TouchableOpacity onPress={props.navigateToQuestion}>
+    <TouchableOpacity onPress={props.onPress}>
       <View style={styles.container}>
         <View style={styles.baseText}>
           <Text style={styles.titleText}>{props.title}</Text>

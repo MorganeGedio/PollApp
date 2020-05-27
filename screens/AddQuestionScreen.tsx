@@ -12,7 +12,7 @@ import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
 import { Screens } from "../constants/Screens";
 import { RootStackParamList } from "../App";
-import apiary from "../apiary";
+import apiary from "../services/apiary";
 
 type AddScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
