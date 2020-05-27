@@ -1,4 +1,4 @@
-const COLORS = {
+const colors = {
   questionBackground: "#dfcdc3",
   choiceBackground: "#ffe8df",
   submitBackground: "#7FD1AE",
@@ -8,4 +8,4 @@ const COLORS = {
   addQuestionBackground: "#7FD1AE",
 };
 
-export default COLORS;
+export default colors;

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import COLORS from "../constants/Colors";
+import colors from "../constants/Colors";
 
 interface Props {
   title: string;
@@ -39,9 +39,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: COLORS.questionBackground,
+    backgroundColor: colors.questionBackground,
     borderRadius: 10,
-    shadowColor: COLORS.shadowColor,
+    shadowColor: colors.shadowColor,
     shadowOffset: {
       width: 0,
       height: 2,
