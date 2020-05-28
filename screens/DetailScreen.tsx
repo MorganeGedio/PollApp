@@ -5,11 +5,10 @@ import { useRoute, RouteProp } from "@react-navigation/native";
 import ChoiceItem from "../components/Choice";
 import { Screens } from "../constants/Screens";
 import { RootStackParamList } from "../App";
-import { ChoicesDetails, Choice, Question } from "./types";
+import { Question } from "./types";
 import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
 import { axios } from "../services/apiary";
-import { stringify } from "querystring";
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, Screens.details>;
 
@@ -26,8 +25,9 @@ export default function DetailScreen() {
     url: "", 
     published_at: ""
   });
+
   const [hasVoted, setHasVoted] = useState(false);
-  
+
   const fetchData = async () => {
     await axios
       .get<Question>(route.params.url)
