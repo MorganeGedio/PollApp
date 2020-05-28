@@ -5,7 +5,7 @@ import { useRoute, RouteProp } from "@react-navigation/native";
 import ChoiceItem from "../components/Choice";
 import { Screens } from "../constants/Screens";
 import { RootStackParamList } from "../App";
-import { ChoicesDetails, Choice } from "./types";
+import { ChoicesDetails, Choice, Question } from "./types";
 import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
 import { axios } from "../services/apiary";
@@ -19,18 +19,29 @@ export type DetailsScreenParamList = {
 export default function DetailScreen() {
   const route = useRoute<DetailsScreenRouteProp>();
 
-  const [details, setDetails] = useState<ChoicesDetails>({ question: "", choices: [] });
+  const [details, setDetails] = useState<ChoicesDetails>({
+    question: "",
+    choices: [],
+  });
   const [hasVoted, setHasVoted] = useState(false);
 
-  const fetchData = async () => {
-    await axios.get<Choice[]>(route.params.url)
-    .then(
-      (response) => setDetails((prevState) => ({ question: prevState.question, choices: response.data }))
-    )
-    .catch((error: any) => {
-      console.log(error);
-    });
+  // const fetchData = async () => {
+  //   const response = await axios.get(route.params.url);
+  //   setDetails(response.data);
+  // };
 
+  const fetchData = async () => {
+    await axios
+      .get<Choice[]>(route.params.url)
+      .then((response) =>
+        setDetails((prevState) => ({
+          question: prevState.question,
+          choices: response.data,
+        }))
+      )
+      .catch((error: any) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
