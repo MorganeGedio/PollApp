@@ -1,25 +1,47 @@
 import * as WebBrowser from "expo-web-browser";
 import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
-import { useRoute } from "@react-navigation/native";
-import Choice from "../components/Choice";
-import apiary from "../apiary";
+import { useRoute, RouteProp } from "@react-navigation/native";
+import ChoiceItem from "../components/Choice";
+import { Screens } from "../constants/Screens";
+import { RootStackParamList } from "../App";
+import { ChoicesDetails, Choice, Question } from "./types";
+import { Colors } from "../constants/Colors";
+import { Fonts } from "../constants/Fonts";
+import { axios } from "../services/apiary";
+
+type DetailsScreenRouteProp = RouteProp<RootStackParamList, Screens.details>;
+
+export type DetailsScreenParamList = {
+  url: string;
+};
 
 export default function DetailScreen() {
-  const route = useRoute();
+  const route = useRoute<DetailsScreenRouteProp>();
 
-  const [details, setDetails] = useState({ question: "", choices: [] });
-
-  const [displayVotes, setDisplayVotes] = useState(false);
-  const [displayTotal, setDisplayTotal] = useState(false);
-
+  const [details, setDetails] = useState<ChoicesDetails>({
+    question: "",
+    choices: [],
+  });
   const [hasVoted, setHasVoted] = useState(false);
 
+  // const fetchData = async () => {
+  //   const response = await axios.get(route.params.url);
+  //   setDetails(response.data);
+  // };
+
   const fetchData = async () => {
-    // console.log("test");
-    const response = await apiary.get(route.params.url);
-    // console.log(response);
-    setDetails(response.data);
+    await axios
+      .get<Choice[]>(route.params.url)
+      .then((response) =>
+        setDetails((prevState) => ({
+          question: prevState.question,
+          choices: response.data,
+        }))
+      )
+      .catch((error: any) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -27,11 +49,8 @@ export default function DetailScreen() {
   }, []);
 
   const chooseOption = async (url: string) => {
-    const info = await apiary.post(url);
-    // console.log(info);
+    await axios.post(url);
     fetchData();
-    setDisplayVotes(true);
-    setDisplayTotal(true);
     setHasVoted(true);
   };
 
@@ -55,19 +74,18 @@ export default function DetailScreen() {
         data={details.choices}
         extraData={details.choices}
         renderItem={({ item }) => {
-          // console.log("item", item);
           return (
-            <Choice
+            <ChoiceItem
               disabled={hasVoted}
-              voteChange={() => chooseOption(item.url)}
+              onPress={() => chooseOption(item.url)}
               title={item.choice}
-              showVote={displayVotes}
+              showVote={hasVoted}
               votes={item.votes}
-            ></Choice>
+            ></ChoiceItem>
           );
         }}
       />
-      {displayTotal ? (
+      {hasVoted ? (
         <Text style={styles.total}>
           {totalVotes(details.choices)} votes in total
         </Text>
@@ -79,23 +97,23 @@ export default function DetailScreen() {
 const styles = StyleSheet.create({
   question: {
     fontSize: 25,
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     padding: 5,
     textAlign: "center",
     marginTop: 20,
   },
   instruction: {
     fontSize: 15,
-    fontFamily: "nunito-regular",
+    fontFamily: Fonts.regular,
     padding: 10,
     textAlign: "center",
   },
   total: {
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     padding: 10,
     fontSize: 15,
     marginTop: 3,
-    color: "#707070",
+    color: Colors.totalColor,
     textAlign: "center",
   },
 });

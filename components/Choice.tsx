@@ -1,20 +1,22 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Colors } from "../constants/Colors";
+import { Fonts } from "../constants/Fonts";
 
 interface Props {
   title: string;
   votes: number;
   showVote: boolean;
   disabled: boolean;
-  voteChange: () => void;
+  onPress: () => void;
 }
 
-export default function Choice(props: Props) {
+export default function ChoiceItem(props: Props) {
   return (
     <View>
       <TouchableOpacity
         style={styles.choice}
-        onPress={props.voteChange}
+        onPress={props.onPress}
         disabled={props.disabled}
       >
         <View>
@@ -33,7 +35,7 @@ export default function Choice(props: Props) {
 
 const styles = StyleSheet.create({
   choice: {
-    backgroundColor: "#ffe8df",
+    backgroundColor: Colors.choiceBackground,
     padding: 10,
     height: 70,
     alignItems: "center",
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginTop: 30,
     borderRadius: 10,
-    shadowColor: "#000",
+    shadowColor: Colors.shadowColor,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -51,12 +53,12 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
   },
   choiceText: {
-    fontFamily: "nunito-regular",
+    fontFamily: Fonts.regular,
     fontSize: 20,
     textAlign: "center",
   },
   voteText: {
-    fontFamily: "nunito-regular",
+    fontFamily: Fonts.regular,
     fontSize: 17,
     textAlign: "center",
   },

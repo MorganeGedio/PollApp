@@ -5,14 +5,21 @@ import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import useLinking from "./navigation/useLinking";
-import HomeScreen from "./screens/HomeScreen";
-import DetailScreen from "./screens/DetailScreen";
+import HomeScreen, { HomeScreenParamList } from "./screens/HomeScreen";
+import DetailScreen, { DetailsScreenParamList } from "./screens/DetailScreen";
 import AddQuestionScreen from "./screens/AddQuestionScreen";
+import { Colors } from "./constants/Colors";
+import { Screens } from "./constants/Screens";
 
-const Stack = createStackNavigator();
+export type RootStackParamList = {
+  [Screens.list]: HomeScreenParamList;
+  [Screens.details]: DetailsScreenParamList;
+  [Screens.add]: undefined;
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -61,31 +68,24 @@ export default function App(props) {
           <Stack.Navigator
             screenOptions={{
               headerStyle: {
-                backgroundColor: "#7d5a5a",
+                backgroundColor: Colors.appHeaderBackground,
               },
-              headerTintColor: "#fff",
+              headerTintColor: Colors.appHeaderText,
               headerTitleStyle: {
                 fontWeight: "bold",
               },
             }}
           >
-            {/* <Stack.Screen
-              name="Questions"
-              component={BottomTabNavigator}
-              options={{
-                title: "Questions",
-              }}
-            /> */}
             <Stack.Screen
-              name="QuestionsList"
+              name={Screens.list}
               component={HomeScreen}
               initialParams={{ reload: false }}
               options={{
                 title: "Questions List",
               }}
             />
-            <Stack.Screen name="Details" component={DetailScreen} />
-            <Stack.Screen name="Add" component={AddQuestionScreen} />
+            <Stack.Screen name={Screens.details} component={DetailScreen} />
+            <Stack.Screen name={Screens.add} component={AddQuestionScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>
@@ -96,6 +96,5 @@ export default function App(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
 });

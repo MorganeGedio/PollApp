@@ -7,18 +7,26 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import apiary from "../apiary";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Colors } from "../constants/Colors";
+import { Fonts } from "../constants/Fonts";
+import { Screens } from "../constants/Screens";
+import { RootStackParamList } from "../App";
+import { axios } from "../services/apiary";
+
+type AddScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  Screens.add
+>;
 
 export default function AddQuestionScreen() {
   const [question, onChangeQuestion] = useState("Question");
   const [choice, onChangeChoice] = useState("Choices");
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<AddScreenNavigationProp>();
 
   const createChoices = (choicesInput: string) => {
     let choices = choicesInput.split(",");
-    // console.log(choices)
-    // array of strings
     return JSON.stringify(choices);
   };
 
@@ -27,9 +35,16 @@ export default function AddQuestionScreen() {
     '{"question": "' + question + '", "choices": ' + choicesArray + "}";
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
-    apiary.post("/questions", newQuestionFull);
-    navigation.navigate("QuestionsList", { reload: true });
     event.preventDefault();
+
+    axios.post("/questions", newQuestionFull)
+    .then(() => {
+      navigation.navigate(Screens.list, { reload: true });
+    })
+    .catch((error: any) => {
+      console.log(error);
+      alert("Please provide a question and at least 2 choices!");
+    });
   };
 
   return (
@@ -62,35 +77,35 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   title: {
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     textAlign: "center",
     fontSize: 25,
     padding: 10,
   },
   label: {
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     padding: 10,
     fontSize: 20,
     textAlign: "center",
   },
   input: {
     height: 50,
-    borderColor: "gray",
+    borderColor: Colors.borderColor,
     borderWidth: 0.5,
     borderRadius: 10,
-    fontFamily: "roboto",
+    fontFamily: Fonts.input,
     fontSize: 20,
     padding: 10,
   },
   submit: {
-    backgroundColor: "#7FD1AE",
+    backgroundColor: Colors.submitBackground,
     padding: 10,
     height: 70,
     alignItems: "center",
     justifyContent: "center",
     margin: 30,
     borderRadius: 10,
-    shadowColor: "#000",
+    shadowColor: Colors.shadowColor,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -99,7 +114,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
   },
   submitText: {
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     fontSize: 20,
   },
 });

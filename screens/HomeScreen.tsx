@@ -6,26 +6,46 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Colors } from "../constants/Colors";
+import { Fonts } from "../constants/Fonts";
 import QuestionItem from "../components/QuestionItem";
-import apiary from "../apiary";
+import { Screens } from "../constants/Screens";
+import { Question } from "./types";
+import { RootStackParamList } from "../App";
+import { axios } from "../services/apiary";
+
+type HomeScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  Screens.list
+>;
+
+type HomeScreenRouteProp = RouteProp<RootStackParamList, Screens.list>;
+
+export type HomeScreenParamList = {
+  reload: boolean;
+};
 
 export default function HomeScreen() {
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const navigation = useNavigation<HomeScreenNavigationProp>();
 
-  const route = useRoute();
+  const route = useRoute<HomeScreenRouteProp>();
 
-  // fetch the API - list of questions
   const fetchData = async () => {
-    const response = await apiary.get("/questions");
-    setQuestions(response.data);
-  };
+    await axios.get<Question[]>("/questions")
+    .then(
+      (response) => setQuestions(response.data)
+    )
+    .catch((error: any) => {
+      console.log(error);
+    });
+  }
 
   useEffect(() => {
     fetchData();
   }, []);
-  // empty array to avoid activating effect hook on component updates but only for the mounting
 
   useEffect(() => {
     if (route.params.reload) {
@@ -33,10 +53,8 @@ export default function HomeScreen() {
     }
   }, [route.params.reload]);
 
-  const navigation = useNavigation();
-
   function questionPress(url: string) {
-    navigation.navigate("Details", { url });
+    navigation.navigate(Screens.details, { url });
   }
 
   function formatDate(publicationDate: string) {
@@ -50,7 +68,7 @@ export default function HomeScreen() {
       <Text style={styles.mainTitle}> Choose your poll </Text>
       <TouchableOpacity
         style={styles.addQuestion}
-        onPress={() => navigation.navigate("Add")}
+        onPress={() => navigation.navigate(Screens.add)}
       >
         <Text style={styles.addText}>ADD YOUR QUESTION</Text>
       </TouchableOpacity>
@@ -60,7 +78,7 @@ export default function HomeScreen() {
         data={questions}
         renderItem={({ item }) => (
           <QuestionItem
-            navigateToQuestion={() => questionPress(item.url)}
+            onPress={() => questionPress(item.url)}
             title={item.question}
             date={formatDate(item.published_at)}
           />
@@ -76,13 +94,13 @@ const styles = StyleSheet.create({
   },
 
   mainTitle: {
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     fontSize: 30,
     textAlign: "center",
     marginHorizontal: 10,
   },
   addQuestion: {
-    backgroundColor: "#7FD1AE",
+    backgroundColor: Colors.addQuestionBackground,
     padding: 10,
     height: 50,
     alignItems: "center",
@@ -90,7 +108,7 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     marginHorizontal: 60,
     borderRadius: 10,
-    shadowColor: "#000",
+    shadowColor: Colors.shadowColor,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -99,7 +117,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
   },
   addText: {
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     fontSize: 15,
   },
 });
