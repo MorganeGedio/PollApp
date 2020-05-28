@@ -12,8 +12,9 @@ import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
 import QuestionItem from "../components/QuestionItem";
 import { Screens } from "../constants/Screens";
+import { Question } from "./types";
 import { RootStackParamList } from "../App";
-import apiary from "../services/apiary";
+import { axios } from "../services/apiary";
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -27,15 +28,20 @@ export type HomeScreenParamList = {
 };
 
 export default function HomeScreen() {
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
   const navigation = useNavigation<HomeScreenNavigationProp>();
 
   const route = useRoute<HomeScreenRouteProp>();
 
   const fetchData = async () => {
-    const response = await apiary.get("/questions");
-    setQuestions(response.data);
-  };
+    await axios.get<Question[]>("/questions")
+    .then(
+      (response) => setQuestions(response.data)
+    )
+    .catch((error: any) => {
+      console.log(error);
+    });
+  }
 
   useEffect(() => {
     fetchData();

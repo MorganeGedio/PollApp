@@ -19,7 +19,7 @@ export type RootStackParamList = {
   [Screens.add]: undefined;
 };
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);

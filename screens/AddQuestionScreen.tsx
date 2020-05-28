@@ -12,7 +12,7 @@ import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
 import { Screens } from "../constants/Screens";
 import { RootStackParamList } from "../App";
-import apiary from "../services/apiary";
+import { axios } from "../services/apiary";
 
 type AddScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -35,9 +35,16 @@ export default function AddQuestionScreen() {
     '{"question": "' + question + '", "choices": ' + choicesArray + "}";
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
-    apiary.post("/questions", newQuestionFull);
-    navigation.navigate(Screens.list, { reload: true });
     event.preventDefault();
+
+    axios.post("/questions", newQuestionFull)
+    .then(() => {
+      navigation.navigate(Screens.list, { reload: true });
+    })
+    .catch((error: any) => {
+      console.log(error);
+      alert("Please provide a question and at least 2 choices!");
+    });
   };
 
   return (

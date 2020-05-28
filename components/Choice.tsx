@@ -11,7 +11,7 @@ interface Props {
   onPress: () => void;
 }
 
-export default function Choice(props: Props) {
+export default function ChoiceItem(props: Props) {
   return (
     <View>
       <TouchableOpacity

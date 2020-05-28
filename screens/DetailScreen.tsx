@@ -2,18 +2,13 @@ import * as WebBrowser from "expo-web-browser";
 import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { useRoute, RouteProp } from "@react-navigation/native";
-import Choice from "../components/Choice";
+import ChoiceItem from "../components/Choice";
 import { Screens } from "../constants/Screens";
 import { RootStackParamList } from "../App";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { ChoicesDetails, Choice } from "./types";
 import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
-import apiary from "../services/apiary";
-
-type DetailsScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  Screens.details
->;
+import { axios } from "../services/apiary";
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, Screens.details>;
 
@@ -24,12 +19,18 @@ export type DetailsScreenParamList = {
 export default function DetailScreen() {
   const route = useRoute<DetailsScreenRouteProp>();
 
-  const [details, setDetails] = useState({ question: "", choices: [] });
+  const [details, setDetails] = useState<ChoicesDetails>({ question: "", choices: [] });
   const [hasVoted, setHasVoted] = useState(false);
 
   const fetchData = async () => {
-    const response = await apiary.get(route.params.url);
-    setDetails(response.data);
+    await axios.get<Choice[]>(route.params.url)
+    .then(
+      (response) => setDetails((prevState) => ({ question: prevState.question, choices: response.data }))
+    )
+    .catch((error: any) => {
+      console.log(error);
+    });
+
   };
 
   useEffect(() => {
@@ -37,7 +38,7 @@ export default function DetailScreen() {
   }, []);
 
   const chooseOption = async (url: string) => {
-    await apiary.post(url);
+    await axios.post(url);
     fetchData();
     setHasVoted(true);
   };
@@ -63,13 +64,13 @@ export default function DetailScreen() {
         extraData={details.choices}
         renderItem={({ item }) => {
           return (
-            <Choice
+            <ChoiceItem
               disabled={hasVoted}
               onPress={() => chooseOption(item.url)}
               title={item.choice}
               showVote={hasVoted}
               votes={item.votes}
-            ></Choice>
+            ></ChoiceItem>
           );
         }}
       />
