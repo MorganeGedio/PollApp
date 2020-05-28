@@ -6,7 +6,7 @@ describe("QuestionItem", () => {
   const testProps = {
     title: "My question",
     date: "2020-05-25",
-    navigateToQuestion: jest.fn(),
+    onPress: jest.fn(),
   };
 
   test("component renders correctly", () => {
@@ -17,6 +17,4 @@ describe("QuestionItem", () => {
     // match the snapshot to the previously stored snapshot
     expect(tree).toMatchSnapshot();
   });
-
-  
 });
