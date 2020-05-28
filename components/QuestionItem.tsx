@@ -3,13 +3,13 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
 
-interface Props {
+export interface QuestionItemProps {
   title: string;
   date: string;
   onPress: () => void;
 }
 
-export default function QuestionItem(props: Props) {
+export default function QuestionItem(props: QuestionItemProps) {
   return (
     <TouchableOpacity onPress={props.onPress}>
       <View style={styles.container}>

@@ -13,6 +13,7 @@ import { Fonts } from "../constants/Fonts";
 import QuestionItem from "../components/QuestionItem";
 import { Screens } from "../constants/Screens";
 import { Question } from "./types";
+import { formatDate } from "../utils/FormatDate";
 import { RootStackParamList } from "../App";
 import { axios } from "../services/apiary";
 
@@ -34,14 +35,13 @@ export default function HomeScreen() {
   const route = useRoute<HomeScreenRouteProp>();
 
   const fetchData = async () => {
-    await axios.get<Question[]>("/questions")
-    .then(
-      (response) => setQuestions(response.data)
-    )
-    .catch((error: any) => {
-      console.log(error);
-    });
-  }
+    await axios
+      .get<Question[]>("/questions")
+      .then((response) => setQuestions(response.data))
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     fetchData();
@@ -55,12 +55,6 @@ export default function HomeScreen() {
 
   function questionPress(url: string) {
     navigation.navigate(Screens.details, { url });
-  }
-
-  function formatDate(publicationDate: string) {
-    const date = new Date(publicationDate);
-    const options = { year: "numeric", month: "numeric", day: "numeric" };
-    return date.toLocaleDateString([], options);
   }
 
   return (
