@@ -10,8 +10,3 @@ export interface Choice {
   url: string;
   votes: number;
 }
-
-export interface ChoicesDetails { 
-    question: string; 
-    choices: Choice[];
-}

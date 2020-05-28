@@ -9,6 +9,7 @@ import { ChoicesDetails, Choice, Question } from "./types";
 import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
 import { axios } from "../services/apiary";
+import { stringify } from "querystring";
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, Screens.details>;
 
@@ -19,26 +20,20 @@ export type DetailsScreenParamList = {
 export default function DetailScreen() {
   const route = useRoute<DetailsScreenRouteProp>();
 
-  const [details, setDetails] = useState<ChoicesDetails>({
+  const [details, setDetails] = useState<Question>({
     question: "",
     choices: [],
+    url: "", 
+    published_at: ""
   });
   const [hasVoted, setHasVoted] = useState(false);
-
-  // const fetchData = async () => {
-  //   const response = await axios.get(route.params.url);
-  //   setDetails(response.data);
-  // };
-
+  
   const fetchData = async () => {
     await axios
-      .get<Choice[]>(route.params.url)
-      .then((response) =>
-        setDetails((prevState) => ({
-          question: prevState.question,
-          choices: response.data,
-        }))
-      )
+      .get<Question>(route.params.url)
+      .then((response) => {
+        setDetails(response.data)
+      }) 
       .catch((error: any) => {
         console.log(error);
       });
