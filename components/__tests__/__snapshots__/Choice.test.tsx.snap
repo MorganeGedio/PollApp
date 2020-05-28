@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChoiceItem Choice component renders correctly 1`] = `
+<View>
+  <View
+    accessible={true}
+    focusable={true}
+    isTVSelectable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#ffe8df",
+        "borderRadius": 10,
+        "height": 70,
+        "justifyContent": "center",
+        "marginLeft": 30,
+        "marginRight": 30,
+        "marginTop": 30,
+        "opacity": 1,
+        "padding": 10,
+        "shadowColor": "#000",
+        "shadowOffset": Object {
+          "height": 1,
+          "width": 0,
+        },
+        "shadowOpacity": 0.23,
+        "shadowRadius": 2.62,
+      }
+    }
+  >
+    <View>
+      <Text
+        style={
+          Object {
+            "fontFamily": "nunito-regular",
+            "fontSize": 20,
+            "textAlign": "center",
+          }
+        }
+      >
+        Question Test
+      </Text>
+    </View>
+  </View>
+</View>
+`;

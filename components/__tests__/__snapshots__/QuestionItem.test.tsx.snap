@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`QuestionItem component renders correctly 1`] = `
+exports[`QuestionItem Question component renders correctly 1`] = `
 <View
   accessible={true}
   focusable={true}

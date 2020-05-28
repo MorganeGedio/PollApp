@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import QuestionItem, { QuestionItemProps } from "../QuestionItem";
+import QuestionItem from "../QuestionItem";
 
 describe("QuestionItem", () => {
   const testProps = {
@@ -9,7 +9,7 @@ describe("QuestionItem", () => {
     onPress: jest.fn(),
   };
 
-  test("component renders correctly", () => {
+  test("Question component renders correctly", () => {
     // render a component with the new renderer
     const component = renderer.create(<QuestionItem {...testProps} />);
     // transform it into JSON

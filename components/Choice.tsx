@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
 
-interface Props {
+interface ChoiceItemProps {
   title: string;
   votes: number;
   showVote: boolean;
@@ -11,7 +11,7 @@ interface Props {
   onPress: () => void;
 }
 
-export default function ChoiceItem(props: Props) {
+export default function ChoiceItem(props: ChoiceItemProps) {
   return (
     <View>
       <TouchableOpacity
