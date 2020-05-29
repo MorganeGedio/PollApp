@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { Colors } from "../constants/Colors";
-import { Fonts } from "../constants/Fonts";
+import { Colors } from "constants/Colors";
+import { Fonts } from "constants/Fonts";
 
 export interface QuestionItemProps {
   title: string;

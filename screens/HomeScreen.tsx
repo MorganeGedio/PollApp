@@ -8,14 +8,14 @@ import {
 } from "react-native";
 import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Colors } from "../constants/Colors";
-import { Fonts } from "../constants/Fonts";
-import QuestionItem from "../components/QuestionItem";
-import { Screens } from "../constants/Screens";
-import { Question } from "./types";
-import { formatDate } from "../utils/FormatDate";
-import { RootStackParamList } from "../App";
-import { axios } from "../services/apiary";
+import { Colors } from "constants/Colors";
+import { Fonts } from "constants/Fonts";
+import QuestionItem from "components/QuestionItem";
+import { Screens } from "constants/Screens";
+import { formatDate } from "utils/FormatDate";
+import { getQuestions } from "services/apiary";
+import { RootStackParamList } from "App";
+import { Question } from "screens/types";
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -35,12 +35,8 @@ export default function HomeScreen() {
   const route = useRoute<HomeScreenRouteProp>();
 
   const fetchData = async () => {
-    await axios
-      .get<Question[]>("/questions")
-      .then((response) => setQuestions(response.data))
-      .catch((error: any) => {
-        console.log(error);
-      });
+    const questionsFetched = await getQuestions()
+    setQuestions(questionsFetched)
   };
 
   useEffect(() => {

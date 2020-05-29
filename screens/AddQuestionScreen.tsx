@@ -8,12 +8,12 @@ import {
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Colors } from "../constants/Colors";
-import { Fonts } from "../constants/Fonts";
-import { Screens } from "../constants/Screens";
-import { formatChoicesInput } from "../utils/FormatChoicesInput";
-import { RootStackParamList } from "../App";
-import { axios } from "../services/apiary";
+import { Colors } from "constants/Colors";
+import { Fonts } from "constants/Fonts";
+import { Screens } from "constants/Screens";
+import { formatChoicesInput } from "utils/FormatChoicesInput";
+import { axios, createQuestion } from "services/apiary";
+import { RootStackParamList } from "App";
 
 type AddScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -33,9 +33,7 @@ export default function AddQuestionScreen() {
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-
-    axios
-      .post("/questions", newQuestionFull)
+    createQuestion(newQuestionFull)
       .then(() => {
         navigation.navigate(Screens.list, { reload: true });
       })

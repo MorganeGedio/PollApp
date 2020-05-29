@@ -2,14 +2,14 @@ import * as WebBrowser from "expo-web-browser";
 import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { useRoute, RouteProp } from "@react-navigation/native";
-import ChoiceItem from "../components/Choice";
-import { Screens } from "../constants/Screens";
-import { RootStackParamList } from "../App";
-import { Question } from "./types";
-import { totalVotes } from "../utils/TotalVotes";
-import { Colors } from "../constants/Colors";
-import { Fonts } from "../constants/Fonts";
-import { axios } from "../services/apiary";
+import ChoiceItem from "components/Choice";
+import { Screens } from "constants/Screens";
+import { totalVotes } from "utils/TotalVotes";
+import { Colors } from "constants/Colors";
+import { Fonts } from "constants/Fonts";
+import { axios, getQuestion, voteChoice } from "services/apiary";
+import { RootStackParamList } from "App";
+import { Question } from "screens/types";
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, Screens.details>;
 
@@ -30,14 +30,8 @@ export default function DetailScreen() {
   const [hasVoted, setHasVoted] = useState(false);
 
   const fetchData = async () => {
-    await axios
-      .get<Question>(route.params.url)
-      .then((response) => {
-        setDetails(response.data);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
+    const detailsFetched = await getQuestion(route.params.url)
+    setDetails(detailsFetched)
   };
 
   useEffect(() => {
@@ -45,7 +39,7 @@ export default function DetailScreen() {
   }, []);
 
   const chooseOption = async (url: string) => {
-    await axios.post(url);
+    await voteChoice(url);
     fetchData();
     setHasVoted(true);
   };

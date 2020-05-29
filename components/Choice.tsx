@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Colors } from "../constants/Colors";
-import { Fonts } from "../constants/Fonts";
+import { Colors } from "constants/Colors";
+import { Fonts } from "constants/Fonts";
 
 interface ChoiceItemProps {
   title: string;
