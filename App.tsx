@@ -5,12 +5,11 @@ import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import useLinking from "./navigation/useLinking";
-import HomeScreen, { HomeScreenParamList } from "./screens/HomeScreen";
-import DetailScreen, { DetailsScreenParamList } from "./screens/DetailScreen";
-import AddQuestionScreen from "./screens/AddQuestionScreen";
-import { Colors } from "./constants/Colors";
-import { Screens } from "./constants/Screens";
+import HomeScreen, { HomeScreenParamList } from "screens/HomeScreen";
+import DetailScreen, { DetailsScreenParamList } from "screens/DetailScreen";
+import AddQuestionScreen from "screens/AddQuestionScreen";
+import { Colors } from "constants/Colors";
+import { Screens } from "constants/Screens";
 
 export type RootStackParamList = {
   [Screens.list]: HomeScreenParamList;
@@ -24,16 +23,12 @@ export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
-  const { getInitialState } = useLinking(containerRef);
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHide();
-
-        // Load our initial navigation state
-        setInitialNavigationState(await getInitialState());
 
         // Load fonts
         await Font.loadAsync({

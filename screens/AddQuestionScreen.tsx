@@ -12,7 +12,7 @@ import { Colors } from "constants/Colors";
 import { Fonts } from "constants/Fonts";
 import { Screens } from "constants/Screens";
 import { formatChoicesInput } from "utils/FormatChoicesInput";
-import { axios, createQuestion } from "services/apiary";
+import { createQuestion } from "services/apiary";
 import { RootStackParamList } from "App";
 
 type AddScreenNavigationProp = StackNavigationProp<
@@ -27,7 +27,7 @@ export default function AddQuestionScreen() {
   const navigation = useNavigation<AddScreenNavigationProp>();
 
   const choicesArray = formatChoicesInput(choice);
-  
+
   const newQuestionFull =
     '{"question": "' + question + '", "choices": ' + choicesArray + "}";
 

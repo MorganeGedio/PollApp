@@ -10,12 +10,12 @@ import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Colors } from "constants/Colors";
 import { Fonts } from "constants/Fonts";
-import QuestionItem from "components/QuestionItem";
 import { Screens } from "constants/Screens";
+import QuestionItem from "components/QuestionItem";
 import { formatDate } from "utils/FormatDate";
 import { getQuestions } from "services/apiary";
-import { RootStackParamList } from "App";
 import { Question } from "screens/types";
+import { RootStackParamList } from "App";
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -35,8 +35,8 @@ export default function HomeScreen() {
   const route = useRoute<HomeScreenRouteProp>();
 
   const fetchData = async () => {
-    const questionsFetched = await getQuestions()
-    setQuestions(questionsFetched)
+    const questionsFetched = await getQuestions();
+    setQuestions(questionsFetched);
   };
 
   useEffect(() => {

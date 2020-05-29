@@ -7,14 +7,14 @@ export const axios = Axios.create({
   timeout: 5000,
 });
 
-// get questions list - all 
+// get questions list - all
 export function getQuestions(): Promise<Question[]> {
-  return axios.get("/questions").then((response) => response.data)
+  return axios.get("/questions").then((response) => response.data);
 }
 
 // get question details - get{id}
-export function getQuestion(questionId: string) : Promise<Question> {
-  return axios.get(questionId).then((response) => response.data)
+export function getQuestion(questionId: string): Promise<Question> {
+  return axios.get(questionId).then((response) => response.data);
 }
 
 // post vote
@@ -23,8 +23,7 @@ export function voteChoice(url: string) {
   return axios.post(url);
 }
 
-// post new question - create 
+// post new question - create
 export function createQuestion(params: string) {
-  return axios.post("/questions", params)
-  }
-
+  return axios.post("/questions", params);
+}
