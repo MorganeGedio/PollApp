@@ -11,6 +11,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
 import { Screens } from "../constants/Screens";
+import { formatChoicesInput } from "../utils/FormatChoicesInput";
 import { RootStackParamList } from "../App";
 import { axios } from "../services/apiary";
 
@@ -25,26 +26,23 @@ export default function AddQuestionScreen() {
 
   const navigation = useNavigation<AddScreenNavigationProp>();
 
-  const createChoices = (choicesInput: string) => {
-    let choices = choicesInput.split(",");
-    return JSON.stringify(choices);
-  };
-
-  const choicesArray = createChoices(choice);
+  const choicesArray = formatChoicesInput(choice);
+  
   const newQuestionFull =
     '{"question": "' + question + '", "choices": ' + choicesArray + "}";
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
-    axios.post("/questions", newQuestionFull)
-    .then(() => {
-      navigation.navigate(Screens.list, { reload: true });
-    })
-    .catch((error: any) => {
-      console.log(error);
-      alert("Please provide a question and at least 2 choices!");
-    });
+    axios
+      .post("/questions", newQuestionFull)
+      .then(() => {
+        navigation.navigate(Screens.list, { reload: true });
+      })
+      .catch((error: any) => {
+        console.log(error);
+        alert("Please provide a question and at least 2 choices!");
+      });
   };
 
   return (
