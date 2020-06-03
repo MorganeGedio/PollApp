@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Text,
   StyleSheet,
   FlatList,
   SafeAreaView,
   TouchableOpacity,
-  ImageStore,
-  EventSubscriptionVendor,
 } from "react-native";
 import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -15,13 +13,12 @@ import { Fonts } from "constants/Fonts";
 import { Screens } from "constants/Screens";
 import QuestionItem from "components/QuestionItem";
 import { formatDate } from "utils/FormatDate";
-import { getQuestions } from "services/apiary";
 import { Question } from "screens/types";
 import { RootStackParamList } from "App";
 import { connect } from "react-redux";
-import { actionCreators as actions } from "../Actions";
-import { store } from ;
-import {GET_QUESTIONS} from 'constants/ActionTypes'
+import { AppState } from "reducers/rootReducer";
+import { bindActionCreators, Dispatch } from "redux";
+import fetchQuestions, { QuestionsActions } from "actions/QuestionsActions";
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -34,30 +31,25 @@ export type HomeScreenParamList = {
   reload: boolean;
 };
 
-// const mapStateToProps = (state: { questions: any; }) => {
-//   return { questions: state.questions };
-// };
+type Props = {
+  questions: Question[];
+};
 
-// const Questions = connect(mapStateToProps)(HomeScreen)
+type DispatchProps = {
+  fetchActions(): void;
+};
 
-export default function HomeScreen() {
-  const [questions, setQuestions] = useState<Question[]>([]);
-
+function HomeScreen(props: Props & DispatchProps) {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const route = useRoute<HomeScreenRouteProp>();
 
-  const fetchData = async () => {
-    const questionsFetched = await getQuestions();
-    setQuestions(questionsFetched);
-  };
-
   useEffect(() => {
-    fetchData();
+    props.fetchActions();
   }, []);
 
   useEffect(() => {
     if (route.params.reload) {
-      fetchData();
+      props.fetchActions();
     }
   }, [route.params.reload]);
 
@@ -77,7 +69,7 @@ export default function HomeScreen() {
       <FlatList
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.url}
-        data={questions}
+        data={props.questions}
         renderItem={({ item }) => (
           <QuestionItem
             onPress={() => questionPress(item.url)}
@@ -123,3 +115,16 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 });
+
+// any time the store is updated, mapStateToProps will be called
+const mapStatetoProps = (state: AppState): Props => ({
+  questions: state.questionsState.questions,
+});
+
+const mapDispatchToProps = (
+  dispatch: Dispatch<QuestionsActions>
+): DispatchProps => ({
+  fetchActions: bindActionCreators(fetchQuestions, dispatch),
+});
+
+export default connect(mapStatetoProps, mapDispatchToProps)(HomeScreen);

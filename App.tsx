@@ -11,7 +11,7 @@ import AddQuestionScreen from "screens/AddQuestionScreen";
 import { Colors } from "constants/Colors";
 import { Screens } from "constants/Screens";
 import { Provider } from "react-redux";
-import { store } from "store";
+import store from "store";
 
 export type RootStackParamList = {
   [Screens.list]: HomeScreenParamList;
@@ -21,7 +21,7 @@ export type RootStackParamList = {
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-export default function App(props) {
+export default function App(props: { skipLoadingScreen: any; }) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
@@ -56,36 +56,36 @@ export default function App(props) {
   } else {
     return (
       <Provider store={store}>
-      <View style={styles.container}>
-        {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-        <NavigationContainer
-          ref={containerRef}
-          initialState={initialNavigationState}
-        >
-          <Stack.Navigator
-            screenOptions={{
-              headerStyle: {
-                backgroundColor: Colors.appHeaderBackground,
-              },
-              headerTintColor: Colors.appHeaderText,
-              headerTitleStyle: {
-                fontWeight: "bold",
-              },
-            }}
+        <View style={styles.container}>
+          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+          <NavigationContainer
+            ref={containerRef}
+            initialState={initialNavigationState}
           >
-            <Stack.Screen
-              name={Screens.list}
-              component={HomeScreen}
-              initialParams={{ reload: false }}
-              options={{
-                title: "Questions List",
+            <Stack.Navigator
+              screenOptions={{
+                headerStyle: {
+                  backgroundColor: Colors.appHeaderBackground,
+                },
+                headerTintColor: Colors.appHeaderText,
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
               }}
-            />
-            <Stack.Screen name={Screens.details} component={DetailScreen} />
-            <Stack.Screen name={Screens.add} component={AddQuestionScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </View>
+            >
+              <Stack.Screen
+                name={Screens.list}
+                component={HomeScreen}
+                initialParams={{ reload: false }}
+                options={{
+                  title: "Questions List",
+                }}
+              />
+              <Stack.Screen name={Screens.details} component={DetailScreen} />
+              <Stack.Screen name={Screens.add} component={AddQuestionScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </View>
       </Provider>
     );
   }
