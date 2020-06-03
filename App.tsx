@@ -10,6 +10,8 @@ import DetailScreen, { DetailsScreenParamList } from "screens/DetailScreen";
 import AddQuestionScreen from "screens/AddQuestionScreen";
 import { Colors } from "constants/Colors";
 import { Screens } from "constants/Screens";
+import { Provider } from "react-redux";
+import { store } from "store";
 
 export type RootStackParamList = {
   [Screens.list]: HomeScreenParamList;
@@ -53,6 +55,7 @@ export default function App(props) {
     return null;
   } else {
     return (
+      <Provider store={store}>
       <View style={styles.container}>
         {Platform.OS === "ios" && <StatusBar barStyle="default" />}
         <NavigationContainer
@@ -83,6 +86,7 @@ export default function App(props) {
           </Stack.Navigator>
         </NavigationContainer>
       </View>
+      </Provider>
     );
   }
 }

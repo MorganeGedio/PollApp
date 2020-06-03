@@ -5,6 +5,8 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  ImageStore,
+  EventSubscriptionVendor,
 } from "react-native";
 import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -16,6 +18,10 @@ import { formatDate } from "utils/FormatDate";
 import { getQuestions } from "services/apiary";
 import { Question } from "screens/types";
 import { RootStackParamList } from "App";
+import { connect } from "react-redux";
+import { actionCreators as actions } from "../Actions";
+import { store } from ;
+import {GET_QUESTIONS} from 'constants/ActionTypes'
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -28,10 +34,16 @@ export type HomeScreenParamList = {
   reload: boolean;
 };
 
+// const mapStateToProps = (state: { questions: any; }) => {
+//   return { questions: state.questions };
+// };
+
+// const Questions = connect(mapStateToProps)(HomeScreen)
+
 export default function HomeScreen() {
   const [questions, setQuestions] = useState<Question[]>([]);
-  const navigation = useNavigation<HomeScreenNavigationProp>();
 
+  const navigation = useNavigation<HomeScreenNavigationProp>();
   const route = useRoute<HomeScreenRouteProp>();
 
   const fetchData = async () => {

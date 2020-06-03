@@ -4,6 +4,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -14,11 +15,18 @@ import { Screens } from "constants/Screens";
 import { formatChoicesInput } from "utils/FormatChoicesInput";
 import { createQuestion } from "services/apiary";
 import { RootStackParamList } from "App";
+import { connect } from "react-redux";
 
 type AddScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   Screens.add
 >;
+
+// function mapDispatchToProps(dispatch: (arg0: any) => any) {
+//   return {
+//     addQuestion: (question: any) => dispatch(addQuestion(question)),
+//   };
+// }
 
 export default function AddQuestionScreen() {
   const [question, onChangeQuestion] = useState("Question");
@@ -39,7 +47,7 @@ export default function AddQuestionScreen() {
       })
       .catch((error: any) => {
         console.log(error);
-        alert("Please provide a question and at least 2 choices!");
+        Alert.alert("Please provide a question and at least 2 choices!");
       });
   };
 

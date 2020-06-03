@@ -18,7 +18,6 @@ export function getQuestion(questionId: string): Promise<Question> {
 }
 
 // post vote
-
 export function voteChoice(url: string) {
   return axios.post(url);
 }
