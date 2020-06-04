@@ -18,7 +18,7 @@ import { RootStackParamList } from "App";
 import { connect } from "react-redux";
 import { AppState } from "reducers/rootReducer";
 import { bindActionCreators, Dispatch } from "redux";
-import fetchQuestions, { QuestionsActions } from "actions/QuestionsActions";
+import { fetchQuestions, QuestionsActions } from "actions/QuestionsActions";
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,

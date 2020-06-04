@@ -8,7 +8,7 @@ export interface QuestionsState {
 
 const defaultState: QuestionsState = {
   questions: [],
-  loading: false,
+  loading: false
 };
 
 export default function questionsState(
@@ -31,6 +31,10 @@ export default function questionsState(
         ...state,
         loading: false,
         questions: action.payload,
+      };
+    case "ADD_QUESTION":
+      return {
+        ...state
       };
     default:
       return state;

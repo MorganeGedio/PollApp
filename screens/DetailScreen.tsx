@@ -9,6 +9,10 @@ import { Screens } from "constants/Screens";
 import { Question } from "screens/types";
 import { getQuestion, voteChoice } from "services/apiary";
 import { RootStackParamList } from "App";
+import { connect } from "react-redux";
+import { AppState } from "reducers/rootReducer";
+import { bindActionCreators, Dispatch } from "redux";
+import { fetchQuestionDetails, QuestionDetailsActions } from "actions/QuestionDetailsActions";
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, Screens.details>;
 
@@ -16,44 +20,41 @@ export type DetailsScreenParamList = {
   url: string;
 };
 
-export default function DetailScreen() {
-  const route = useRoute<DetailsScreenRouteProp>();
+type Props = {
+  question: Question;
+};
 
-  const [details, setDetails] = useState<Question>({
-    question: "",
-    choices: [],
-    url: "",
-    published_at: "",
-  });
+type DispatchProps = {
+  fetchDetailsActions(url: string): void;
+};
+
+export function DetailScreen(props: Props & DispatchProps) {
+
+  const route = useRoute<DetailsScreenRouteProp>();
 
   const [hasVoted, setHasVoted] = useState(false);
 
-  const fetchData = async () => {
-    const detailsFetched = await getQuestion(route.params.url);
-    setDetails(detailsFetched);
-  };
-
   useEffect(() => {
-    fetchData();
+    props.fetchDetailsActions(route.params.url);
   }, []);
 
   const chooseOption = async (url: string) => {
     await voteChoice(url);
-    fetchData();
+    props.fetchDetailsActions(route.params.url);
     setHasVoted(true);
   };
 
   return (
     <SafeAreaView>
-      <Text style={styles.question}> {details.question} </Text>
+      <Text style={styles.question}> {props.question.question} </Text>
       <Text style={styles.instruction}>
         Choose one of the following option :
       </Text>
       <FlatList
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.url}
-        data={details.choices}
-        extraData={details.choices}
+        data={props.question.choices}
+        extraData={props.question.choices}
         renderItem={({ item }) => {
           return (
             <ChoiceItem
@@ -68,7 +69,7 @@ export default function DetailScreen() {
       />
       {hasVoted ? (
         <Text style={styles.total}>
-          {totalVotes(details.choices)} votes in total
+          {totalVotes(props.question.choices)} votes in total
         </Text>
       ) : null}
     </SafeAreaView>
@@ -98,3 +99,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+
+const mapStatetoProps = (state: AppState): Props => ({
+  question: state.questionDetailsState.question,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<QuestionDetailsActions>): DispatchProps => {
+  return {
+    fetchDetailsActions: bindActionCreators(fetchQuestionDetails, dispatch),
+  };
+};
+
+export default connect(mapStatetoProps, mapDispatchToProps)(DetailScreen);
