@@ -9,5 +9,5 @@ export interface AppState {
 
 export default combineReducers<AppState>({
   questionsState,
-  questionDetailsState
+  questionDetailsState, 
 });

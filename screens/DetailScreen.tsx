@@ -7,12 +7,15 @@ import { Colors } from "constants/Colors";
 import { Fonts } from "constants/Fonts";
 import { Screens } from "constants/Screens";
 import { Question } from "screens/types";
-import { getQuestion, voteChoice } from "services/apiary";
 import { RootStackParamList } from "App";
 import { connect } from "react-redux";
 import { AppState } from "reducers/rootReducer";
 import { bindActionCreators, Dispatch } from "redux";
-import { fetchQuestionDetails, QuestionDetailsActions } from "actions/QuestionDetailsActions";
+import {
+  fetchQuestionDetails,
+  QuestionDetailsActions,
+  voteForOption,
+} from "actions/QuestionDetailsActions";
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, Screens.details>;
 
@@ -22,27 +25,20 @@ export type DetailsScreenParamList = {
 
 type Props = {
   question: Question;
+  voted: boolean;
 };
 
 type DispatchProps = {
   fetchDetailsActions(url: string): void;
+  voteForOptionAction(url: string): void;
 };
 
 export function DetailScreen(props: Props & DispatchProps) {
-
   const route = useRoute<DetailsScreenRouteProp>();
-
-  const [hasVoted, setHasVoted] = useState(false);
 
   useEffect(() => {
     props.fetchDetailsActions(route.params.url);
   }, []);
-
-  const chooseOption = async (url: string) => {
-    await voteChoice(url);
-    props.fetchDetailsActions(route.params.url);
-    setHasVoted(true);
-  };
 
   return (
     <SafeAreaView>
@@ -58,16 +54,16 @@ export function DetailScreen(props: Props & DispatchProps) {
         renderItem={({ item }) => {
           return (
             <ChoiceItem
-              disabled={hasVoted}
-              onPress={() => chooseOption(item.url)}
+              disabled={props.voted}
+              onPress={() => props.voteForOptionAction(item.url)}
               title={item.choice}
-              showVote={hasVoted}
+              showVote={props.voted}
               votes={item.votes}
             ></ChoiceItem>
           );
         }}
       />
-      {hasVoted ? (
+      {props.voted ? (
         <Text style={styles.total}>
           {totalVotes(props.question.choices)} votes in total
         </Text>
@@ -102,11 +98,15 @@ const styles = StyleSheet.create({
 
 const mapStatetoProps = (state: AppState): Props => ({
   question: state.questionDetailsState.question,
+  voted: state.questionDetailsState.voted,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<QuestionDetailsActions>): DispatchProps => {
+const mapDispatchToProps = (
+  dispatch: Dispatch<QuestionDetailsActions>
+): DispatchProps => {
   return {
     fetchDetailsActions: bindActionCreators(fetchQuestionDetails, dispatch),
+    voteForOptionAction: bindActionCreators(voteForOption, dispatch),
   };
 };
 
