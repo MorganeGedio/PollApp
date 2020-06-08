@@ -31,6 +31,7 @@ type Props = {
 
 type DispatchProps = {
   addQuestion(params: string): void;
+  reset(): void;
 };
 
 export function AddQuestionScreen(props: Props & DispatchProps) {
@@ -39,23 +40,23 @@ export function AddQuestionScreen(props: Props & DispatchProps) {
   const [question, onChangeQuestion] = useState("Question");
   const [choice, onChangeChoice] = useState("Choices");
 
-  const choicesArray = formatChoicesInput(choice);
-
-  const newQuestionFull =
-    '{"question": "' + question + '", "choices": ' + choicesArray + "}";
+  const { request } = props;
 
   const handleSubmit = () => {
-    addQuestion(newQuestionFull);
+    const choicesArray = formatChoicesInput(choice);
+    const newQuestionFull =
+      '{"question": "' + question + '", "choices": ' + choicesArray + "}";
+    props.addQuestion(newQuestionFull);
   };
 
   useEffect(() => {
-    // console.log("update", props.request);
     if (props.request === "SUCCESS") {
       navigation.navigate(Screens.list, { reload: true });
+      props.reset();
     } else if (props.request === "ERROR") {
       Alert.alert("Please provide a question and at least 2 choices!");
     }
-  }, [props]);
+  }, [request]);
 
   return (
     <View style={styles.container}>
@@ -75,7 +76,7 @@ export function AddQuestionScreen(props: Props & DispatchProps) {
         onChangeText={(choice) => onChangeChoice(choice)}
       ></TextInput>
 
-      <TouchableOpacity style={styles.submit} onPress={() => handleSubmit}>
+      <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
         <Text style={styles.submitText}>SEND !</Text>
       </TouchableOpacity>
     </View>
@@ -139,4 +140,5 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, (dispatch: any) => ({
   addQuestion: bindActionCreators(addQuestion, dispatch),
+  reset: () => dispatch({ type: "RESET" }),
 }))(AddQuestionScreen);

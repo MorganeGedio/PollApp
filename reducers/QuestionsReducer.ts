@@ -1,20 +1,20 @@
 import { QuestionsActions } from "actions/QuestionsActions";
 import { Question, Choice } from "screens/types";
 
-export type RequestStatus = 'DEFAULT' | 'LOADING' | 'ERROR' | 'SUCCESS';
+export type RequestStatus = "DEFAULT" | "LOADING" | "ERROR" | "SUCCESS";
 
 export interface QuestionsState {
   questions: Question[];
   loading: boolean;
-  choices: Choice[]; 
+  choices: Choice[];
   request: RequestStatus;
 }
 
 const defaultState: QuestionsState = {
   questions: [],
-  loading: false, 
-  choices: [], 
-  request: 'DEFAULT'
+  loading: false,
+  choices: [],
+  request: "DEFAULT",
 };
 
 export default function questionsState(
@@ -40,17 +40,22 @@ export default function questionsState(
       };
     case "ADD_QUESTION":
       return {
-        ...state
+        ...state,
       };
     case "ADD_QUESTION_SUCCESS":
       return {
-        ...state, 
-        request: 'SUCCESS'
+        ...state,
+        request: "SUCCESS",
       };
     case "ADD_QUESTION_FAILURE":
       return {
-        ...state, 
-        request: 'ERROR'
+        ...state,
+        request: "ERROR",
+      };
+    case "RESET":
+      return {
+        ...state,
+        request: "DEFAULT",
       };
     default:
       return state;
