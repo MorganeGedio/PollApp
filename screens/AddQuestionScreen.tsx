@@ -6,50 +6,56 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, Dispatch, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Colors } from "constants/Colors";
 import { Fonts } from "constants/Fonts";
 import { Screens } from "constants/Screens";
 import { formatChoicesInput } from "utils/FormatChoicesInput";
-import { createQuestion } from "services/apiary";
 import { RootStackParamList } from "App";
 import { connect } from "react-redux";
+import { addQuestion, QuestionsActions } from "actions/QuestionsActions";
+import { AppState } from "reducers/rootReducer";
+import { RequestStatus } from "reducers/QuestionsReducer";
+import { bindActionCreators } from "redux";
 
 type AddScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   Screens.add
 >;
 
-// function mapDispatchToProps(dispatch: (arg0: any) => any) {
-//   return {
-//     addQuestion: (question: any) => dispatch(addQuestion(question)),
-//   };
-// }
+type Props = {
+  request: RequestStatus;
+};
 
-export default function AddQuestionScreen() {
+type DispatchProps = {
+  addQuestion(params: string): void;
+};
+
+export function AddQuestionScreen(props: Props & DispatchProps) {
+  const navigation = useNavigation<AddScreenNavigationProp>();
+
   const [question, onChangeQuestion] = useState("Question");
   const [choice, onChangeChoice] = useState("Choices");
-
-  const navigation = useNavigation<AddScreenNavigationProp>();
 
   const choicesArray = formatChoicesInput(choice);
 
   const newQuestionFull =
     '{"question": "' + question + '", "choices": ' + choicesArray + "}";
 
-  const handleSubmit = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    createQuestion(newQuestionFull)
-      .then(() => {
-        navigation.navigate(Screens.list, { reload: true });
-      })
-      .catch((error: any) => {
-        console.log(error);
-        Alert.alert("Please provide a question and at least 2 choices!");
-      });
+  const handleSubmit = () => {
+    addQuestion(newQuestionFull);
   };
+
+  useEffect(() => {
+    // console.log("update", props.request);
+    if (props.request === "SUCCESS") {
+      navigation.navigate(Screens.list, { reload: true });
+    } else if (props.request === "ERROR") {
+      Alert.alert("Please provide a question and at least 2 choices!");
+    }
+  }, [props]);
 
   return (
     <View style={styles.container}>
@@ -69,7 +75,7 @@ export default function AddQuestionScreen() {
         onChangeText={(choice) => onChangeChoice(choice)}
       ></TextInput>
 
-      <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
+      <TouchableOpacity style={styles.submit} onPress={() => handleSubmit}>
         <Text style={styles.submitText}>SEND !</Text>
       </TouchableOpacity>
     </View>
@@ -122,3 +128,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
+
+const mapStateToProps = (state: AppState): Props => ({
+  request: state.questionsState.request,
+});
+
+const mapDispatchToProps = {
+  addQuestion: addQuestion,
+};
+
+export default connect(mapStateToProps, (dispatch: any) => ({
+  addQuestion: bindActionCreators(addQuestion, dispatch),
+}))(AddQuestionScreen);

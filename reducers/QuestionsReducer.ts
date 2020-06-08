@@ -1,14 +1,20 @@
 import { QuestionsActions } from "actions/QuestionsActions";
-import { Question } from "screens/types";
+import { Question, Choice } from "screens/types";
+
+export type RequestStatus = 'DEFAULT' | 'LOADING' | 'ERROR' | 'SUCCESS';
 
 export interface QuestionsState {
   questions: Question[];
   loading: boolean;
+  choices: Choice[]; 
+  request: RequestStatus;
 }
 
 const defaultState: QuestionsState = {
   questions: [],
-  loading: false
+  loading: false, 
+  choices: [], 
+  request: 'DEFAULT'
 };
 
 export default function questionsState(
@@ -35,6 +41,16 @@ export default function questionsState(
     case "ADD_QUESTION":
       return {
         ...state
+      };
+    case "ADD_QUESTION_SUCCESS":
+      return {
+        ...state, 
+        request: 'SUCCESS'
+      };
+    case "ADD_QUESTION_FAILURE":
+      return {
+        ...state, 
+        request: 'ERROR'
       };
     default:
       return state;

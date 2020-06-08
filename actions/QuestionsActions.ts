@@ -1,13 +1,15 @@
 import { ErrorAction, PayloadAction } from "actions/index";
 import { Action } from "redux";
 import { Question } from "screens/types";
-import { getQuestions } from "services/apiary";
+import { getQuestions, createQuestion } from "services/apiary";
 
 export type QuestionsActions =
   | Action<"FETCH_QUESTIONS_LOADING">
   | PayloadAction<"FETCH_QUESTIONS_SUCCESS", Question[]>
   | ErrorAction<"FETCH_QUESTIONS_FAILURE", string>
   | Action<"ADD_QUESTION">
+  | Action<"ADD_QUESTION_SUCCESS">
+  | ErrorAction<"ADD_QUESTION_FAILURE", string>
 
 export function fetchQuestions() {
   return async (dispatch: (action: QuestionsActions) => void) => {
@@ -21,9 +23,16 @@ export function fetchQuestions() {
   };
 }
 
-export function addQuestion() {
-  return (dispatch: (action: QuestionsActions) => void) => {
-    dispatch({ type: "ADD_QUESTION" });
-
+export function addQuestion(params: string) {
+  return async (dispatch: (action: QuestionsActions) => void) => {
+    try {
+       dispatch({ type: "ADD_QUESTION" });
+       console.log("add question")
+       await createQuestion(params);
+       dispatch({ type: "ADD_QUESTION_SUCCESS" });
+     } 
+     catch (error) {
+      dispatch({ type: "ADD_QUESTION_FAILURE", error: error });
+    }
   };
-}
+};
