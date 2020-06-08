@@ -134,11 +134,14 @@ const mapStateToProps = (state: AppState): Props => ({
   request: state.questionsState.request,
 });
 
-const mapDispatchToProps = {
-  addQuestion: addQuestion,
+const mapDispatchToProps = (
+  dispatch: Dispatch<QuestionsActions>
+): DispatchProps => {
+  return {
+    addQuestion: bindActionCreators(addQuestion, dispatch),   
+    reset: () => dispatch({ type: "RESET" })
+
+  };
 };
 
-export default connect(mapStateToProps, (dispatch: any) => ({
-  addQuestion: bindActionCreators(addQuestion, dispatch),
-  reset: () => dispatch({ type: "RESET" }),
-}))(AddQuestionScreen);
+export default connect(mapStateToProps,mapDispatchToProps)(AddQuestionScreen);
