@@ -11,10 +11,11 @@ describe("ChoiceItem", () => {
     onPress: jest.fn(),
   };
 
-  test("Choice component renders correctly", () => {
+  it("Choice component renders correctly", () => {
     // render a component with the new renderer
     const component = renderer.create(<ChoiceItem {...testProps} />);
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
+
 });
