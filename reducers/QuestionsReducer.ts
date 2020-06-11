@@ -38,11 +38,13 @@ export default function questionsState(
         loading: false,
         questions: action.payload,
       };
-    case "ADD_QUESTION_SUCCESS":
+    case "ADD_QUESTION_SUCCESS": {
       return {
         ...state,
+        questions: state.questions.concat(action.payload),
         request: "SUCCESS",
-      };
+      }
+    };
     case "ADD_QUESTION_FAILURE":
       return {
         ...state,
