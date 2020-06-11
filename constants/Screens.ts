@@ -1,5 +1,5 @@
 export enum Screens {
-  list = "QuestionsList",
-  details = "Details",
-  add = "Add",
+  List = "QuestionsList",
+  Details = "Details",
+  Add = "Add",
 };
