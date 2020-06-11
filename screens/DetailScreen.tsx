@@ -17,7 +17,7 @@ import {
   voteForOption,
 } from "actions/QuestionDetailsActions";
 
-type DetailsScreenRouteProp = RouteProp<RootStackParamList, Screens.details>;
+type DetailsScreenRouteProp = RouteProp<RootStackParamList, Screens.Details>;
 
 export type DetailsScreenParamList = {
   url: string;

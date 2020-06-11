@@ -22,10 +22,10 @@ import { fetchQuestions, QuestionsActions } from "actions/QuestionsActions";
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  Screens.list
+  Screens.List
 >;
 
-type HomeScreenRouteProp = RouteProp<RootStackParamList, Screens.list>;
+type HomeScreenRouteProp = RouteProp<RootStackParamList, Screens.List>;
 
 export type HomeScreenParamList = {
   reload: boolean;
@@ -54,7 +54,7 @@ function HomeScreen(props: Props & DispatchProps) {
   }, [route.params.reload]);
 
   function questionPress(url: string) {
-    navigation.navigate(Screens.details, { url });
+    navigation.navigate(Screens.Details, { url });
   }
 
   return (
@@ -62,7 +62,7 @@ function HomeScreen(props: Props & DispatchProps) {
       <Text style={styles.mainTitle}> Choose your poll </Text>
       <TouchableOpacity
         style={styles.addQuestion}
-        onPress={() => navigation.navigate(Screens.add)}
+        onPress={() => navigation.navigate(Screens.Add)}
       >
         <Text style={styles.addText}>ADD YOUR QUESTION</Text>
       </TouchableOpacity>
