@@ -7,7 +7,6 @@ export type QuestionsActions =
   | Action<"FETCH_QUESTIONS_LOADING">
   | PayloadAction<"FETCH_QUESTIONS_SUCCESS", Question[]>
   | ErrorAction<"FETCH_QUESTIONS_FAILURE", string>
-  | Action<"ADD_QUESTION">
   | Action<"ADD_QUESTION_SUCCESS">
   | ErrorAction<"ADD_QUESTION_FAILURE", string>
   | Action<"RESET">;
@@ -27,7 +26,6 @@ export function fetchQuestions() {
 export function addQuestion(params: string) {
   return async (dispatch: (action: QuestionsActions) => void) => {
     try {
-      dispatch({ type: "ADD_QUESTION" });
       await createQuestion(params);
       dispatch({ type: "ADD_QUESTION_SUCCESS" });
     } catch (error) {

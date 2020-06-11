@@ -38,10 +38,6 @@ export default function questionsState(
         loading: false,
         questions: action.payload,
       };
-    case "ADD_QUESTION":
-      return {
-        ...state,
-      };
     case "ADD_QUESTION_SUCCESS":
       return {
         ...state,
