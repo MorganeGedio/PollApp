@@ -52,8 +52,9 @@ const questions = [
   },
 ];
 
-const newQuestion = "";
-
+const newQuestion =
+  '{"question": Question"' + '", "choices": [["Answer 1"," Answer 2"]]' + "}";
+// "{"question": "Question", "choices": ["Answer 1"," Answer 2"]}";
 describe("testing fetchQuestions()", () => {
   // clear out all actions from mock store before running each test
   beforeEach(() => {
@@ -63,27 +64,28 @@ describe("testing fetchQuestions()", () => {
   it("should get all the questions with API call", () => {
     // Mock any GET request to "/questions"
     // arguments for reply are (status, data, headers)
-    mockApi.onGet(URL).reply(200, { data: questions });
+    mockApi.onGet(URL).reply(200, questions);
     // store.dispatch : dispatches an action through the mock store
-    fetchQuestions()(store.dispatch).then(() => {
-      // store.getActions : returns the actions of the mock store
-      // check that the correct action type and payload are returned
+    return store.dispatch(fetchQuestions()).then(() => {
       let expectedActions = [
+        {
+          type: "FETCH_QUESTIONS_LOADING",
+        },
         {
           type: "FETCH_QUESTIONS_SUCCESS",
           payload: questions,
         },
       ];
-      return expect(store.getActions()).toEqual(expectedActions);
+      // store.getActions : returns the actions of the mock store
+      // check that the correct action type and payload are returned
+      expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
   it("should return FETCH_QUESTIONS_FAILURE if the API call fails", () => {
-    mockApi.onGet(URL).reply(500);
-    fetchQuestions()(store.dispatch).then(() => {
-      return expect(store.getActions()).toEqual([
-        { type: "FETCH_QUESTIONS_FAILURE" },
-      ]);
+    mockApi.onGet(URL).reply(400);
+    return fetchQuestions()(store.dispatch).then(() => {
+      expect(store.getActions()).toEqual([{ type: "FETCH_QUESTIONS_FAILURE" }]);
     });
   });
 });
@@ -96,8 +98,9 @@ describe("testing addQuestion()", () => {
 
   it("should add a question", () => {
     mockApi.onPost(URL).reply(201);
-    addQuestion(newQuestion)(store.dispatch).then(() => {
-      return expect(store.getActions()).toEqual([
+    return addQuestion(newQuestion)(store.dispatch).then(() => {
+      expect(store.getActions()).toEqual([
+        { type: "ADD_QUESTION" },
         { type: "ADD_QUESTION_SUCCESS" },
       ]);
     });
@@ -105,8 +108,9 @@ describe("testing addQuestion()", () => {
 
   it("should return ADD_QUESTION_FAILURE if the question can't be added", () => {
     mockApi.onPost(URL).reply(400);
-    addQuestion(newQuestion)(store.dispatch).then(() => {
-      return expect(store.getActions()).toEqual([
+    return addQuestion(newQuestion)(store.dispatch).then(() => {
+      expect(store.getActions()).toEqual([
+        { type: "ADD_QUESTION" },
         { type: "ADD_QUESTION_FAILURE" },
       ]);
     });

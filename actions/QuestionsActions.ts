@@ -28,10 +28,11 @@ export function addQuestion(params: string) {
   return async (dispatch: (action: QuestionsActions) => void) => {
     try {
       dispatch({ type: "ADD_QUESTION" });
-      await createQuestion(params);
+      const test = await createQuestion(params);
       dispatch({ type: "ADD_QUESTION_SUCCESS" });
     } catch (error) {
-      dispatch({ type: "ADD_QUESTION_FAILURE", error: error });
+      const err = error.data ? new Error(error.data.message) : error;
+      dispatch({ type: "ADD_QUESTION_FAILURE", error: err });
     }
   };
 }
