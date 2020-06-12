@@ -1,7 +1,7 @@
 import { ErrorAction, PayloadAction } from "actions/index";
 import { Action } from "redux";
 import { Question } from "screens/types";
-import { getQuestions, createQuestion } from "services/apiary";
+import { API } from "services/apiary";
 
 export type QuestionsActions =
   | Action<"FETCH_QUESTIONS_LOADING">
@@ -16,7 +16,7 @@ export function fetchQuestions() {
   return async (dispatch: (action: QuestionsActions) => void) => {
     try {
       dispatch({ type: "FETCH_QUESTIONS_LOADING" });
-      const response = await getQuestions();
+      const response = await API.getQuestions();
       dispatch({ type: "FETCH_QUESTIONS_SUCCESS", payload: response });
     } catch (e) {
       dispatch({ type: "FETCH_QUESTIONS_FAILURE", error: e });
@@ -28,7 +28,7 @@ export function addQuestion(params: string) {
   return async (dispatch: (action: QuestionsActions) => void) => {
     try {
       dispatch({ type: "ADD_QUESTION" });
-      const test = await createQuestion(params);
+      const test = await API.createQuestion(params);
       dispatch({ type: "ADD_QUESTION_SUCCESS" });
     } catch (error) {
       const err = error.data ? new Error(error.data.message) : error;

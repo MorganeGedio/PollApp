@@ -3,17 +3,12 @@ import { fetchQuestions, addQuestion } from "actions/QuestionsActions";
 import configureMockStore from "redux-mock-store";
 // import thunk middle to make our action asyncronous
 import thunk from "redux-thunk";
-import MockAdapter from "axios-mock-adapter";
-import axios from "axios";
+import { API } from "services/apiary";
 
 const middlewares = [thunk];
 // create a mock store where we will dispatch our actions
 const mockStore = configureMockStore(middlewares);
 const store = mockStore();
-
-// creates a mock instance from the MockAdapter of axios - mock axios call
-const mockApi = new MockAdapter(axios);
-const URL = "/questions";
 
 const questions = [
   {
@@ -51,10 +46,11 @@ const questions = [
     ],
   },
 ];
-
 const newQuestion =
   '{"question": Question"' + '", "choices": [["Answer 1"," Answer 2"]]' + "}";
-// "{"question": "Question", "choices": ["Answer 1"," Answer 2"]}";
+
+const error = new Error();
+
 describe("testing fetchQuestions()", () => {
   // clear out all actions from mock store before running each test
   beforeEach(() => {
@@ -62,11 +58,9 @@ describe("testing fetchQuestions()", () => {
   });
 
   it("should get all the questions with API call", () => {
-    // Mock any GET request to "/questions"
-    // arguments for reply are (status, data, headers)
-    mockApi.onGet(URL).reply(200, questions);
+    jest.spyOn(API, "getQuestions").mockReturnValue(Promise.resolve(questions));
     // store.dispatch : dispatches an action through the mock store
-    return store.dispatch(fetchQuestions()).then(() => {
+    return fetchQuestions()(store.dispatch).then(() => {
       let expectedActions = [
         {
           type: "FETCH_QUESTIONS_LOADING",
@@ -83,9 +77,14 @@ describe("testing fetchQuestions()", () => {
   });
 
   it("should return FETCH_QUESTIONS_FAILURE if the API call fails", () => {
-    mockApi.onGet(URL).reply(400);
+    jest.spyOn(API, "getQuestions").mockRejectedValue(error);
     return fetchQuestions()(store.dispatch).then(() => {
-      expect(store.getActions()).toEqual([{ type: "FETCH_QUESTIONS_FAILURE" }]);
+      expect(store.getActions()).toEqual([
+        {
+          type: "FETCH_QUESTIONS_LOADING",
+        },
+        { type: "FETCH_QUESTIONS_FAILURE", error: error },
+      ]);
     });
   });
 });
@@ -97,7 +96,7 @@ describe("testing addQuestion()", () => {
   });
 
   it("should add a question", () => {
-    mockApi.onPost(URL).reply(201);
+    jest.spyOn(API, "createQuestion").mockImplementation();
     return addQuestion(newQuestion)(store.dispatch).then(() => {
       expect(store.getActions()).toEqual([
         { type: "ADD_QUESTION" },
@@ -107,11 +106,11 @@ describe("testing addQuestion()", () => {
   });
 
   it("should return ADD_QUESTION_FAILURE if the question can't be added", () => {
-    mockApi.onPost(URL).reply(400);
+    jest.spyOn(API, "createQuestion").mockRejectedValue(error);
     return addQuestion(newQuestion)(store.dispatch).then(() => {
       expect(store.getActions()).toEqual([
         { type: "ADD_QUESTION" },
-        { type: "ADD_QUESTION_FAILURE" },
+        { type: "ADD_QUESTION_FAILURE", error: error },
       ]);
     });
   });
