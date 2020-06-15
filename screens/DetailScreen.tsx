@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import ChoiceItem from "components/Choice";
@@ -17,7 +17,7 @@ import {
   voteForOption,
 } from "actions/QuestionDetailsActions";
 
-type DetailsScreenRouteProp = RouteProp<RootStackParamList, Screens.Details>;
+type DetailsScreenRouteProps = RouteProp<RootStackParamList, Screens.Details>;
 
 export type DetailsScreenParamList = {
   url: string;
@@ -34,7 +34,7 @@ type DispatchProps = {
 };
 
 export function DetailScreen(props: Props & DispatchProps) {
-  const route = useRoute<DetailsScreenRouteProp>();
+  const route = useRoute<DetailsScreenRouteProps>();
 
   useEffect(() => {
     props.fetchDetailsActions(route.params.url);

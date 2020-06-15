@@ -43,6 +43,12 @@ export default function questionDetailsState(
         loading: false,
         voted: true,
       };
+    case "VOTE_OPTION_FAILURE": 
+    return {
+      ... state, 
+      loading: false,
+      voted: false
+    }
     default:
       return state;
   }

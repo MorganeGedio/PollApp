@@ -7,7 +7,8 @@ export type QuestionDetailsActions =
   | Action<"FETCH_QUESTION_DETAILS_LOADING">
   | PayloadAction<"FETCH_QUESTION_DETAILS_SUCCESS", Question>
   | ErrorAction<"FETCH_QUESTION_DETAILS_FAILURE", string>
-  | Action<"VOTE_OPTION">;
+  | Action<"VOTE_OPTION">
+  | ErrorAction<"VOTE_OPTION_FAILURE", string>;
 
 export function fetchQuestionDetails(url: string) {
   return async (dispatch: (action: QuestionDetailsActions) => void) => {
@@ -23,8 +24,12 @@ export function fetchQuestionDetails(url: string) {
 
 export function voteForOption(url: string) {
   return async (dispatch: (action: QuestionDetailsActions) => void) => {
-    dispatch({ type: "VOTE_OPTION" });
-    await voteChoice(url);
-    fetchQuestionDetails(url);
+    try {
+      dispatch({ type: "VOTE_OPTION" });
+      await voteChoice(url);
+      fetchQuestionDetails(url);
+    } catch (e) {
+      dispatch({ type: "VOTE_OPTION_FAILURE", error: e });
+    }
   };
 }
