@@ -77,7 +77,7 @@ export function AddQuestionScreen(props: Props & DispatchProps) {
       ></TextInput>
 
       <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
-        <Text style={styles.submitText}>SEND !</Text>
+        <Text style={styles.submitText}>SEND</Text>
       </TouchableOpacity>
     </View>
   );
