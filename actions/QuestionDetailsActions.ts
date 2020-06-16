@@ -27,7 +27,7 @@ export function voteForOption(url: string) {
     try {
       dispatch({ type: "VOTE_OPTION" });
       await voteChoice(url);
-      fetchQuestionDetails(url);
+      // fetchQuestionDetails(url);
     } catch (e) {
       dispatch({ type: "VOTE_OPTION_FAILURE", error: e });
     }

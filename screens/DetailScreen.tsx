@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
+import { Text, StyleSheet, FlatList, SafeAreaView, Alert } from "react-native";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import ChoiceItem from "components/Choice";
 import { totalVotes } from "utils/TotalVotes";
@@ -16,6 +16,7 @@ import {
   QuestionDetailsActions,
   voteForOption,
 } from "actions/QuestionDetailsActions";
+import { RequestStatus } from "reducers/QuestionsReducer";
 
 type DetailsScreenRouteProps = RouteProp<RootStackParamList, Screens.Details>;
 
@@ -26,6 +27,7 @@ export type DetailsScreenParamList = {
 type Props = {
   question: Question;
   voted: boolean;
+  request: RequestStatus;
 };
 
 type DispatchProps = {
@@ -39,6 +41,16 @@ export function DetailScreen(props: Props & DispatchProps) {
   useEffect(() => {
     props.fetchDetailsActions(route.params.url);
   }, []);
+
+  const { request } = props;
+
+  useEffect(() => {
+    if (props.request === "SUCCESS") {
+      props.fetchDetailsActions(route.params.url);
+    } else if (props.request === "ERROR") {
+      Alert.alert("Vote not registered");
+    }
+  }, [request]);
 
   return (
     <SafeAreaView>
@@ -99,6 +111,7 @@ const styles = StyleSheet.create({
 const mapStatetoProps = (state: AppState): Props => ({
   question: state.questionDetailsState.question,
   voted: state.questionDetailsState.voted,
+  request: state.questionsState.request,
 });
 
 const mapDispatchToProps = (
