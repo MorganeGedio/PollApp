@@ -43,8 +43,8 @@ export default function questionsState(
         ...state,
         questions: state.questions.concat(action.payload),
         request: "SUCCESS",
-      }
-    };
+      };
+    }
     case "ADD_QUESTION_FAILURE":
       return {
         ...state,
