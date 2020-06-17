@@ -1,11 +1,11 @@
 export enum Colors {
   questionBackground = "#dfcdc3",
   choiceBackground = "#ffe8df",
-  submitBackground = "#7FD1AE",
+  submitBackground = "#719192",
   shadowColor = "#000",
   borderColor = "gray",
   totalColor = "#707070",
-  addQuestionBackground = "#7FD1AE",
-  appHeaderBackground = "#7d5a5a",
+  addQuestionBackground = "#719192",
+  appHeaderBackground = "#dfcdc3",
   appHeaderText = "#fff",
 };
