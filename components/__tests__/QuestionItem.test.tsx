@@ -9,7 +9,7 @@ describe("QuestionItem", () => {
     onPress: jest.fn(),
   };
 
-  test("Question component renders correctly", () => {
+  it("Question component renders correctly", () => {
     // render a component with the new renderer
     const component = renderer.create(<QuestionItem {...testProps} />);
     // transform it into JSON

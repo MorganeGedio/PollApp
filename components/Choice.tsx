@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Colors } from "constants/Colors";
 import { Fonts } from "constants/Fonts";
 
-interface ChoiceItemProps {
+export interface ChoiceItemProps {
   title: string;
   votes: number;
   showVote: boolean;

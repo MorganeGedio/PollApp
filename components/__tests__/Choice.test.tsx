@@ -1,6 +1,14 @@
 import React from "react";
-import renderer from "react-test-renderer";
-import ChoiceItem from "../Choice";
+import { render, fireEvent } from 'react-native-testing-library';
+import ChoiceItem, { ChoiceItemProps } from "../Choice";
+
+const setup = (props: ChoiceItemProps) => {
+  const wrapper = render(<ChoiceItem {...props} />);
+  return {
+    props,
+    wrapper,
+  };
+};
 
 describe("ChoiceItem", () => {
   const testProps = {
@@ -11,10 +19,15 @@ describe("ChoiceItem", () => {
     onPress: jest.fn(),
   };
 
-  test("Choice component renders correctly", () => {
-    // render a component with the new renderer
-    const component = renderer.create(<ChoiceItem {...testProps} />);
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
-  });
+  const { wrapper, props } = setup(testProps);
+
+  it("choice component doesn't show the amount of votes", () => {
+    expect(props.showVote).toBeFalsy;
+  })
+
+  it("calls the onPress function", () => {
+    fireEvent.press(wrapper.getByText('Question Test'));
+    expect(props.onPress).toHaveBeenCalledTimes(1);
+  })
+
 });

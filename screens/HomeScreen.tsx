@@ -31,11 +31,11 @@ export type HomeScreenParamList = {
   reload: boolean;
 };
 
-type Props = {
+export type Props = {
   questions: Question[];
 };
 
-type DispatchProps = {
+export type DispatchProps = {
   fetchActions(): void;
 };
 

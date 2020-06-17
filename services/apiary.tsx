@@ -1,14 +1,14 @@
 import Axios from "axios";
 import { Question } from "screens/types";
 
-export const axios = Axios.create({
+const axios = Axios.create({
   baseURL: "https://polls.apiblueprint.org",
   responseType: "json",
   timeout: 5000,
 });
 
 // get questions list - all
-export function getQuestions(): Promise<Question[]> {
+function getQuestions(): Promise<Question[]> {
   return axios.get("/questions").then((response) => response.data);
 }
 
@@ -26,3 +26,5 @@ export function voteChoice(url: string): Promise<Question> {
 export function createQuestion(params: string): Promise<Question> {
   return axios.post("/questions", params);
 }
+
+export const API = { getQuestions, getQuestion, voteChoice, createQuestion };
