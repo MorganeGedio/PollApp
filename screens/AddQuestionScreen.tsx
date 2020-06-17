@@ -22,7 +22,7 @@ import { bindActionCreators } from "redux";
 
 type AddScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  Screens.add
+  Screens.Add
 >;
 
 type Props = {
@@ -51,7 +51,7 @@ export function AddQuestionScreen(props: Props & DispatchProps) {
 
   useEffect(() => {
     if (props.request === "SUCCESS") {
-      navigation.navigate(Screens.list, { reload: true });
+      navigation.navigate(Screens.List, { reload: true });
       props.reset();
     } else if (props.request === "ERROR") {
       Alert.alert("Please provide a question and at least 2 choices!");

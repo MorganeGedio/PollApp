@@ -1,16 +1,20 @@
 import { QuestionDetailsActions } from "actions/QuestionDetailsActions";
 import { Question } from "screens/types";
 
+export type RequestStatus = "DEFAULT" | "ERROR" | "SUCCESS";
+
 export interface QuestionDetailsState {
   question: Question;
   loading: boolean;
   voted: boolean;
+  request: RequestStatus;
 }
 
 const defaultState: QuestionDetailsState = {
   question: { question: "", choices: [], url: "", published_at: "" },
   loading: false,
   voted: false,
+  request: "DEFAULT",
 };
 
 export default function questionDetailsState(
@@ -42,6 +46,14 @@ export default function questionDetailsState(
         ...state,
         loading: false,
         voted: true,
+        request: "SUCCESS",
+      };
+    case "VOTE_OPTION_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        voted: false,
+        request: "ERROR",
       };
     default:
       return state;

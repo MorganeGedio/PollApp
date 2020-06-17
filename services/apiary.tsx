@@ -18,12 +18,12 @@ export function getQuestion(questionId: string): Promise<Question> {
 }
 
 // post vote
-export function voteChoice(url: string) {
+export function voteChoice(url: string): Promise<Question> {
   return axios.post(url);
 }
 
 // post new question - create
-export function createQuestion(params: string) {
+export function createQuestion(params: string): Promise<Question> {
   return axios.post("/questions", params);
 }
 

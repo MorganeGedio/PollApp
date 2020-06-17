@@ -14,9 +14,9 @@ import { Provider } from "react-redux";
 import store from "store";
 
 export type RootStackParamList = {
-  [Screens.list]: HomeScreenParamList;
-  [Screens.details]: DetailsScreenParamList;
-  [Screens.add]: undefined;
+  [Screens.List]: HomeScreenParamList;
+  [Screens.Details]: DetailsScreenParamList;
+  [Screens.Add]: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -74,15 +74,15 @@ export default function App(props: { skipLoadingScreen: any; }) {
               }}
             >
               <Stack.Screen
-                name={Screens.list}
+                name={Screens.List}
                 component={HomeScreen}
                 initialParams={{ reload: false }}
                 options={{
                   title: "Questions List",
                 }}
               />
-              <Stack.Screen name={Screens.details} component={DetailScreen} />
-              <Stack.Screen name={Screens.add} component={AddQuestionScreen} />
+              <Stack.Screen name={Screens.Details} component={DetailScreen} />
+              <Stack.Screen name={Screens.Add} component={AddQuestionScreen} />
             </Stack.Navigator>
           </NavigationContainer>
         </View>
