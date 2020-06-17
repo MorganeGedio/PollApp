@@ -26,7 +26,7 @@ export function fetchQuestions() {
 export function addQuestion(params: string) {
   return async (dispatch: (action: QuestionsActions) => void) => {
     try {
-      const newQuestion = await createQuestion(params);
+      const newQuestion = await API.createQuestion(params);
       dispatch({ type: "ADD_QUESTION_SUCCESS", payload: newQuestion});
     } catch (error) {
       const err = error.data ? new Error(error.data.message) : error;
