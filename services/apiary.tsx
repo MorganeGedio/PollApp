@@ -13,17 +13,17 @@ function getQuestions(): Promise<Question[]> {
 }
 
 // get question details - get{id}
-export function getQuestion(questionId: string): Promise<Question> {
+function getQuestion(questionId: string): Promise<Question> {
   return axios.get(questionId).then((response) => response.data);
 }
 
 // post vote
-export function voteChoice(url: string): Promise<Question> {
+function voteChoice(url: string): Promise<Question> {
   return axios.post(url);
 }
 
 // post new question - create
-export function createQuestion(params: string): Promise<Question> {
+function createQuestion(params: string): Promise<Question> {
   return axios.post("/questions", params);
 }
 
