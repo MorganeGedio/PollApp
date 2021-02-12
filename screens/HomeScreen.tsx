@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Text,
   StyleSheet,
@@ -6,43 +6,55 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useRoute } from "@react-navigation/native";
-import QuestionItem from "../components/QuestionItem";
-import apiary from "../apiary";
+import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Colors } from "constants/Colors";
+import { Fonts } from "constants/Fonts";
+import { Screens } from "constants/Screens";
+import QuestionItem from "components/QuestionItem";
+import { formatDate } from "utils/FormatDate";
+import { Question } from "screens/types";
+import { RootStackParamList } from "App";
+import { connect } from "react-redux";
+import { AppState } from "reducers/rootReducer";
+import { bindActionCreators, Dispatch } from "redux";
+import { fetchQuestions, QuestionsActions } from "actions/QuestionsActions";
 
-export default function HomeScreen() {
-  const [questions, setQuestions] = useState([]);
+type HomeScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  Screens.List
+>;
 
-  const route = useRoute();
+type HomeScreenRouteProp = RouteProp<RootStackParamList, Screens.List>;
 
-  // fetch the API - list of questions
-  const fetchData = async () => {
-    const response = await apiary.get("/questions");
-    setQuestions(response.data);
-  };
+export type HomeScreenParamList = {
+  reload: boolean;
+};
+
+export type Props = {
+  questions: Question[];
+};
+
+export type DispatchProps = {
+  fetchActions(): void;
+};
+
+function HomeScreen(props: Props & DispatchProps) {
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const route = useRoute<HomeScreenRouteProp>();
 
   useEffect(() => {
-    fetchData();
+    props.fetchActions();
   }, []);
-  // empty array to avoid activating effect hook on component updates but only for the mounting
 
   useEffect(() => {
     if (route.params.reload) {
-      fetchData();
+      props.fetchActions();
     }
   }, [route.params.reload]);
 
-  const navigation = useNavigation();
-
   function questionPress(url: string) {
-    navigation.navigate("Details", { url });
-  }
-
-  function formatDate(publicationDate: string) {
-    const date = new Date(publicationDate);
-    const options = { year: "numeric", month: "numeric", day: "numeric" };
-    return date.toLocaleDateString([], options);
+    navigation.navigate(Screens.Details, { url });
   }
 
   return (
@@ -50,17 +62,17 @@ export default function HomeScreen() {
       <Text style={styles.mainTitle}> Choose your poll </Text>
       <TouchableOpacity
         style={styles.addQuestion}
-        onPress={() => navigation.navigate("Add")}
+        onPress={() => navigation.navigate(Screens.Add)}
       >
         <Text style={styles.addText}>ADD YOUR QUESTION</Text>
       </TouchableOpacity>
       <FlatList
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.url}
-        data={questions}
+        data={props.questions}
         renderItem={({ item }) => (
           <QuestionItem
-            navigateToQuestion={() => questionPress(item.url)}
+            onPress={() => questionPress(item.url)}
             title={item.question}
             date={formatDate(item.published_at)}
           />
@@ -76,13 +88,13 @@ const styles = StyleSheet.create({
   },
 
   mainTitle: {
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     fontSize: 30,
     textAlign: "center",
     marginHorizontal: 10,
   },
   addQuestion: {
-    backgroundColor: "#7FD1AE",
+    backgroundColor: Colors.addQuestionBackground,
     padding: 10,
     height: 50,
     alignItems: "center",
@@ -90,7 +102,7 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     marginHorizontal: 60,
     borderRadius: 10,
-    shadowColor: "#000",
+    shadowColor: Colors.shadowColor,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -99,7 +111,20 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
   },
   addText: {
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     fontSize: 15,
   },
 });
+
+// any time the store is updated, mapStateToProps will be called
+const mapStatetoProps = (state: AppState): Props => ({
+  questions: state.questionsState.questions,
+});
+
+const mapDispatchToProps = (
+  dispatch: Dispatch<QuestionsActions>
+): DispatchProps => ({
+  fetchActions: bindActionCreators(fetchQuestions, dispatch),
+});
+
+export default connect(mapStatetoProps, mapDispatchToProps)(HomeScreen);

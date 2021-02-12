@@ -1,74 +1,83 @@
-import * as WebBrowser from "expo-web-browser";
-import React, { useState, useEffect } from "react";
-import { Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
-import { useRoute } from "@react-navigation/native";
-import Choice from "../components/Choice";
-import apiary from "../apiary";
+import React, { useEffect } from "react";
+import { Text, StyleSheet, FlatList, SafeAreaView, Alert } from "react-native";
+import { useRoute, RouteProp } from "@react-navigation/native";
+import ChoiceItem from "components/Choice";
+import { totalVotes } from "utils/TotalVotes";
+import { Colors } from "constants/Colors";
+import { Fonts } from "constants/Fonts";
+import { Screens } from "constants/Screens";
+import { Question } from "screens/types";
+import { RootStackParamList } from "App";
+import { connect } from "react-redux";
+import { AppState } from "reducers/rootReducer";
+import { bindActionCreators, Dispatch } from "redux";
+import {
+  fetchQuestionDetails,
+  QuestionDetailsActions,
+  voteForOption,
+} from "actions/QuestionDetailsActions";
+import { RequestStatus } from "reducers/QuestionsReducer";
 
-export default function DetailScreen() {
-  const route = useRoute();
+type DetailsScreenRouteProps = RouteProp<RootStackParamList, Screens.Details>;
 
-  const [details, setDetails] = useState({ question: "", choices: [] });
+export type DetailsScreenParamList = {
+  url: string;
+};
 
-  const [displayVotes, setDisplayVotes] = useState(false);
-  const [displayTotal, setDisplayTotal] = useState(false);
+type Props = {
+  question: Question;
+  voted: boolean;
+  request: RequestStatus;
+};
 
-  const [hasVoted, setHasVoted] = useState(false);
+type DispatchProps = {
+  fetchDetailsActions(url: string): void;
+  voteForOptionAction(url: string): void;
+};
 
-  const fetchData = async () => {
-    // console.log("test");
-    const response = await apiary.get(route.params.url);
-    // console.log(response);
-    setDetails(response.data);
-  };
+export function DetailScreen(props: Props & DispatchProps) {
+  const route = useRoute<DetailsScreenRouteProps>();
 
   useEffect(() => {
-    fetchData();
+    props.fetchDetailsActions(route.params.url);
   }, []);
 
-  const chooseOption = async (url: string) => {
-    await apiary.post(url);
-    fetchData();
-    setDisplayVotes(true);
-    setDisplayTotal(true);
-    setHasVoted(true);
-  };
+  const { request } = props;
 
-  const totalVotes = (choices: string | any[]) => {
-    let sum = 0;
-    for (let i = 0; i < choices.length; i++) {
-      sum += choices[i].votes;
+  useEffect(() => {
+    if (props.request === "SUCCESS") {
+      props.fetchDetailsActions(route.params.url);
+    } else if (props.request === "ERROR") {
+      Alert.alert("Vote not registered");
     }
-    return sum;
-  };
+  }, [request]);
 
   return (
     <SafeAreaView>
-      <Text style={styles.question}> {details.question} </Text>
+      <Text style={styles.question}> {props.question.question} </Text>
       <Text style={styles.instruction}>
         Choose one of the following option :
       </Text>
       <FlatList
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.url}
-        data={details.choices}
-        extraData={details.choices}
+        data={props.question.choices}
+        extraData={props.question.choices}
         renderItem={({ item }) => {
-          // console.log("item", item);
           return (
-            <Choice
-              disabled={hasVoted}
-              voteChange={() => chooseOption(item.url)}
+            <ChoiceItem
+              disabled={props.voted}
+              onPress={() => props.voteForOptionAction(item.url)}
               title={item.choice}
-              showVote={displayVotes}
+              showVote={props.voted}
               votes={item.votes}
-            ></Choice>
+            ></ChoiceItem>
           );
         }}
       />
-      {displayTotal ? (
+      {props.voted ? (
         <Text style={styles.total}>
-          {totalVotes(details.choices)} votes in total
+          {totalVotes(props.question.choices)} votes in total
         </Text>
       ) : null}
     </SafeAreaView>
@@ -78,23 +87,40 @@ export default function DetailScreen() {
 const styles = StyleSheet.create({
   question: {
     fontSize: 25,
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     padding: 5,
     textAlign: "center",
     marginTop: 20,
   },
   instruction: {
     fontSize: 15,
-    fontFamily: "nunito-regular",
+    fontFamily: Fonts.regular,
     padding: 10,
     textAlign: "center",
   },
   total: {
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     padding: 10,
     fontSize: 15,
     marginTop: 3,
-    color: "#707070",
+    color: Colors.totalColor,
     textAlign: "center",
   },
 });
+
+const mapStatetoProps = (state: AppState): Props => ({
+  question: state.questionDetailsState.question,
+  voted: state.questionDetailsState.voted,
+  request: state.questionsState.request,
+});
+
+const mapDispatchToProps = (
+  dispatch: Dispatch<QuestionDetailsActions>
+): DispatchProps => {
+  return {
+    fetchDetailsActions: bindActionCreators(fetchQuestionDetails, dispatch),
+    voteForOptionAction: bindActionCreators(voteForOption, dispatch),
+  };
+};
+
+export default connect(mapStatetoProps, mapDispatchToProps)(DetailScreen);

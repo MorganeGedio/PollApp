@@ -4,31 +4,59 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, Dispatch, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import apiary from "../apiary";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Colors } from "constants/Colors";
+import { Fonts } from "constants/Fonts";
+import { Screens } from "constants/Screens";
+import { formatChoicesInput } from "utils/FormatChoicesInput";
+import { RootStackParamList } from "App";
+import { connect } from "react-redux";
+import { addQuestion, QuestionsActions } from "actions/QuestionsActions";
+import { AppState } from "reducers/rootReducer";
+import { RequestStatus } from "reducers/QuestionsReducer";
+import { bindActionCreators } from "redux";
 
-export default function AddQuestionScreen() {
+type AddScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  Screens.Add
+>;
+
+type Props = {
+  request: RequestStatus;
+};
+
+type DispatchProps = {
+  addQuestion(params: string): void;
+  reset(): void;
+};
+
+export function AddQuestionScreen(props: Props & DispatchProps) {
+  const navigation = useNavigation<AddScreenNavigationProp>();
+
   const [question, onChangeQuestion] = useState("Question");
   const [choice, onChangeChoice] = useState("Choices");
 
-  const navigation = useNavigation();
+  const { request } = props;
 
-  const createChoices = (choicesInput: string) => {
-    let choices = choicesInput.split(",");
-    return JSON.stringify(choices);
+  const handleSubmit = () => {
+    const choicesArray = formatChoicesInput(choice);
+    const newQuestionFull =
+      '{"question": "' + question + '", "choices": ' + choicesArray + "}";
+    props.addQuestion(newQuestionFull);
   };
 
-  const choicesArray = createChoices(choice);
-  const newQuestionFull =
-    '{"question": "' + question + '", "choices": ' + choicesArray + "}";
-
-  const handleSubmit = (event: { preventDefault: () => void }) => {
-    apiary.post("/questions", newQuestionFull);
-    navigation.navigate("QuestionsList", { reload: true });
-    event.preventDefault();
-  };
+  useEffect(() => {
+    if (props.request === "SUCCESS") {
+      navigation.navigate(Screens.List, { reload: true });
+      props.reset();
+    } else if (props.request === "ERROR") {
+      Alert.alert("Please provide a question and at least 2 choices!");
+    }
+  }, [request]);
 
   return (
     <View style={styles.container}>
@@ -49,7 +77,7 @@ export default function AddQuestionScreen() {
       ></TextInput>
 
       <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
-        <Text style={styles.submitText}>SEND !</Text>
+        <Text style={styles.submitText}>SEND</Text>
       </TouchableOpacity>
     </View>
   );
@@ -60,35 +88,35 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   title: {
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     textAlign: "center",
     fontSize: 25,
     padding: 10,
   },
   label: {
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     padding: 10,
     fontSize: 20,
     textAlign: "center",
   },
   input: {
     height: 50,
-    borderColor: "gray",
+    borderColor: Colors.borderColor,
     borderWidth: 0.5,
     borderRadius: 10,
-    fontFamily: "roboto",
+    fontFamily: Fonts.input,
     fontSize: 20,
     padding: 10,
   },
   submit: {
-    backgroundColor: "#7FD1AE",
+    backgroundColor: Colors.submitBackground,
     padding: 10,
     height: 70,
     alignItems: "center",
     justifyContent: "center",
     margin: 30,
     borderRadius: 10,
-    shadowColor: "#000",
+    shadowColor: Colors.shadowColor,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -97,7 +125,23 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
   },
   submitText: {
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     fontSize: 20,
   },
 });
+
+const mapStateToProps = (state: AppState): Props => ({
+  request: state.questionsState.request,
+});
+
+const mapDispatchToProps = (
+  dispatch: Dispatch<QuestionsActions>
+): DispatchProps => {
+  return {
+    addQuestion: bindActionCreators(addQuestion, dispatch),   
+    reset: () => dispatch({ type: "RESET" })
+
+  };
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(AddQuestionScreen);

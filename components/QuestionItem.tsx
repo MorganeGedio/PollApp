@@ -1,15 +1,17 @@
 import * as React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Colors } from "constants/Colors";
+import { Fonts } from "constants/Fonts";
 
-interface Props {
+export interface QuestionItemProps {
   title: string;
   date: string;
-  navigateToQuestion: () => void;
+  onPress: () => void;
 }
 
-export default function QuestionItem(props: Props) {
+export default function QuestionItem(props: QuestionItemProps) {
   return (
-    <TouchableOpacity onPress={props.navigateToQuestion}>
+    <TouchableOpacity onPress={props.onPress}>
       <View style={styles.container}>
         <View style={styles.baseText}>
           <Text style={styles.titleText}>{props.title}</Text>
@@ -38,9 +40,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#dfcdc3",
+    backgroundColor: Colors.questionBackground,
     borderRadius: 10,
-    shadowColor: "#000",
+    shadowColor: Colors.shadowColor,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -62,12 +64,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   titleText: {
-    fontFamily: "nunito-bold",
+    fontFamily: Fonts.bold,
     fontSize: 20,
     marginBottom: 5,
   },
   descriptionText: {
-    fontFamily: "nunito-regular",
+    fontFamily: Fonts.regular,
     fontSize: 13,
     marginBottom: 5,
   },
